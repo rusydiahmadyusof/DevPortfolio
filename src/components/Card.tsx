@@ -13,12 +13,13 @@ const Card = ({ children, className }: CardProps) => {
       className={clsx(
         'relative rounded-xl p-[1px]',
         'bg-gradient-to-br from-primary via-accent to-primary',
+        'h-full',
         className
       )}
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="rounded-xl bg-slate-100 dark:bg-surface p-6 transition-colors duration-200">{children}</div>
+      <div className="rounded-xl bg-slate-100 dark:bg-surface p-6 transition-colors duration-200 h-full flex flex-col">{children}</div>
       <motion.div
         className="absolute inset-0 rounded-xl pointer-events-none"
         initial={{ boxShadow: 'none' }}

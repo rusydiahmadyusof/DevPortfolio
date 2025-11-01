@@ -130,10 +130,15 @@ const Projects = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                className={clsx(
+                  'grid gap-8',
+                  getVisibleProjects().length === 1
+                    ? 'grid-cols-1 md:grid-cols-1 md:max-w-2xl md:mx-auto'
+                    : 'grid-cols-1 md:grid-cols-2'
+                )}
               >
                 {getVisibleProjects().map((project, index) => (
-                  <Card key={`${currentIndex}-${index}`}>
+                  <Card key={`${currentIndex}-${index}`} className="flex flex-col h-full">
                     <div className="mb-4 -mx-6 -mt-6 rounded-t-xl overflow-hidden">
                       <img
                         src={project.imageUrl}
@@ -142,42 +147,44 @@ const Projects = () => {
                         loading="lazy"
                       />
                     </div>
-                    <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-                    <p className="text-slate-600 dark:text-text/80 mb-4 leading-relaxed">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.techStack.map((tech) => (
-                        <Badge key={tech}>{tech}</Badge>
-                      ))}
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <Button
-                        variant="outline"
-                        onClick={() => window.open(project.codeUrl, '_blank')}
-                        onKeyDown={(e) =>
-                          handleKeyDown(e, () => window.open(project.codeUrl, '_blank'))
-                        }
-                        className="w-full sm:w-auto flex items-center justify-center gap-2"
-                        tabIndex={0}
-                        aria-label={`View code for ${project.title}`}
-                      >
-                        <Github className="w-4 h-4" aria-hidden="true" />
-                        View Code
-                      </Button>
-                      <Button
-                        variant="outline"
-                        onClick={() => window.open(project.demoUrl, '_blank')}
-                        onKeyDown={(e) =>
-                          handleKeyDown(e, () => window.open(project.demoUrl, '_blank'))
-                        }
-                        className="w-full sm:w-auto flex items-center justify-center gap-2"
-                        tabIndex={0}
-                        aria-label={`View live demo for ${project.title}`}
-                      >
-                        <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                        Live Demo
-                      </Button>
+                    <div className="flex flex-col flex-1">
+                      <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
+                      <p className="text-slate-600 dark:text-text/80 mb-4 leading-relaxed">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.techStack.map((tech) => (
+                          <Badge key={tech}>{tech}</Badge>
+                        ))}
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-auto">
+                        <Button
+                          variant="outline"
+                          onClick={() => window.open(project.codeUrl, '_blank')}
+                          onKeyDown={(e) =>
+                            handleKeyDown(e, () => window.open(project.codeUrl, '_blank'))
+                          }
+                          className="w-full sm:w-auto flex items-center justify-center gap-2"
+                          tabIndex={0}
+                          aria-label={`View code for ${project.title}`}
+                        >
+                          <Github className="w-4 h-4" aria-hidden="true" />
+                          View Code
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => window.open(project.demoUrl, '_blank')}
+                          onKeyDown={(e) =>
+                            handleKeyDown(e, () => window.open(project.demoUrl, '_blank'))
+                          }
+                          className="w-full sm:w-auto flex items-center justify-center gap-2"
+                          tabIndex={0}
+                          aria-label={`View live demo for ${project.title}`}
+                        >
+                          <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                          Live Demo
+                        </Button>
+                      </div>
                     </div>
                   </Card>
                 ))}
