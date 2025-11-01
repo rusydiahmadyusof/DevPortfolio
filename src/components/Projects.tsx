@@ -1,10 +1,9 @@
-import { useState, useEffect, type KeyboardEvent } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { clsx } from 'clsx'
+import { type KeyboardEvent } from 'react'
+import { motion } from 'framer-motion'
 import Card from './Card'
 import Button from './Button'
 import Badge from './Badge'
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ExternalLink, Github } from 'lucide-react'
 
 interface Project {
   title: string
@@ -64,36 +63,6 @@ const Projects = () => {
     },
   ]
 
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [itemsPerPage, setItemsPerPage] = useState(2)
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setItemsPerPage(1)
-      } else {
-        setItemsPerPage(2)
-      }
-    }
-
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  const totalSlides = Math.ceil(projects.length / itemsPerPage)
-
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1))
-  }
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1))
-  }
-
-  const handleSlideTo = (index: number) => {
-    setCurrentIndex(index)
-  }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>, action: () => void) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -102,11 +71,6 @@ const Projects = () => {
     }
   }
 
-  const getVisibleProjects = () => {
-    const start = currentIndex * itemsPerPage
-    const end = start + itemsPerPage
-    return projects.slice(start, end)
-  }
 
   return (
     <section id="projects" className="py-12 scroll-mt-24">
@@ -121,24 +85,17 @@ const Projects = () => {
           Featured Projects
         </motion.h2>
 
-        <div className="relative max-w-6xl mx-auto">
-          <div className="overflow-hidden">
-            <AnimatePresence mode="wait">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
               <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.3 }}
-                className={clsx(
-                  'grid gap-8',
-                  getVisibleProjects().length === 1
-                    ? 'grid-cols-1 md:grid-cols-1 md:max-w-2xl md:mx-auto'
-                    : 'grid-cols-1 md:grid-cols-2'
-                )}
+                key={project.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                {getVisibleProjects().map((project, index) => (
-                  <Card key={`${currentIndex}-${index}`} className="flex flex-col h-full">
+                  <Card className="flex flex-col h-full">
                     <div className="mb-4 -mx-6 -mt-6 rounded-t-xl overflow-hidden">
                       <img
                         src={project.imageUrl}
@@ -187,49 +144,9 @@ const Projects = () => {
                       </div>
                     </div>
                   </Card>
-                ))}
               </motion.div>
-            </AnimatePresence>
+            ))}
           </div>
-
-          <button
-            onClick={handlePrevious}
-            onKeyDown={(e) => handleKeyDown(e, handlePrevious)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 p-2 rounded-full bg-white/90 dark:bg-surface/80 border border-primary/20 text-primary hover:bg-white dark:hover:bg-surface hover:border-primary/40 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background z-10"
-            aria-label="Previous projects"
-            tabIndex={0}
-          >
-            <ChevronLeft className="w-6 h-6" aria-hidden="true" />
-          </button>
-
-          <button
-            onClick={handleNext}
-            onKeyDown={(e) => handleKeyDown(e, handleNext)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 p-2 rounded-full bg-white/90 dark:bg-surface/80 border border-primary/20 text-primary hover:bg-white dark:hover:bg-surface hover:border-primary/40 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background z-10"
-            aria-label="Next projects"
-            tabIndex={0}
-          >
-            <ChevronRight className="w-6 h-6" aria-hidden="true" />
-          </button>
-        </div>
-
-        <div className="flex justify-center items-center gap-2 mt-8">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handleSlideTo(index)}
-              onKeyDown={(e) => handleKeyDown(e, () => handleSlideTo(index))}
-              className={clsx(
-                'rounded-full transition-all duration-200',
-                'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background',
-                currentIndex === index
-                  ? 'bg-primary w-8 h-2'
-                  : 'bg-primary/30 hover:bg-primary/50 w-2 h-2'
-              )}
-              aria-label={`Go to slide ${index + 1}`}
-              tabIndex={0}
-            />
-          ))}
         </div>
       </div>
     </section>
