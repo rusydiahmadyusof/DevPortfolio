@@ -8,7 +8,7 @@ import Footer from './components/Footer'
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-white text-slate-900 dark:bg-background dark:text-text flex flex-col transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-background text-slate-900 dark:text-text flex flex-col transition-colors duration-200">
       <Navbar />
       <main>
         <Hero />
