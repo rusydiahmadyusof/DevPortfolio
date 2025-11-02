@@ -1,14 +1,17 @@
 import { type KeyboardEvent } from 'react'
 import { motion } from 'framer-motion'
-import Button from './Button'
+import Button from '../components/Button'
 
 const Hero = () => {
   const handleViewProjects = () => {
     const projectsSection = document.getElementById('projects')
     if (projectsSection) {
-      projectsSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      const navbarHeight = 64
+      const targetPosition = projectsSection.offsetTop - navbarHeight
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
       })
     }
   }
@@ -16,9 +19,12 @@ const Hero = () => {
   const handleContactMe = () => {
     const contactSection = document.getElementById('contact')
     if (contactSection) {
-      contactSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      const navbarHeight = 64
+      const targetPosition = contactSection.offsetTop - navbarHeight
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
       })
     }
   }
@@ -31,8 +37,8 @@ const Hero = () => {
   }
 
   return (
-    <section id="home" className="min-h-screen flex items-center py-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="home" className="h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col items-center justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -89,3 +95,4 @@ const Hero = () => {
 }
 
 export default Hero
+

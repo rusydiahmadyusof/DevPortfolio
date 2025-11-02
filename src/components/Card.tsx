@@ -19,7 +19,7 @@ const Card = ({ children, className }: CardProps) => {
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="rounded-xl bg-slate-100 dark:bg-surface p-6 transition-colors duration-200 h-full flex flex-col">{children}</div>
+      <div className="rounded-xl bg-slate-100 dark:bg-surface p-3 md:p-4 transition-colors duration-200 h-full flex flex-col overflow-hidden">{children}</div>
       <motion.div
         className="absolute inset-0 rounded-xl pointer-events-none"
         initial={{ boxShadow: 'none' }}

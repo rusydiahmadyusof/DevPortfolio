@@ -1,33 +1,20 @@
 import { useState, useEffect, type KeyboardEvent } from 'react'
-import { Moon, Sun, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { clsx } from 'clsx'
 
 const Navbar = () => {
-  const [isDark, setIsDark] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
-    const root = document.documentElement
-    const isDarkMode = root.classList.contains('dark')
-    setIsDark(isDarkMode)
-    
-    const observer = new MutationObserver(() => {
-      setIsDark(root.classList.contains('dark'))
-    })
-    
-    observer.observe(root, {
-      attributes: true,
-      attributeFilter: ['class']
-    })
-    
-    return () => observer.disconnect()
-  }, [])
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY
+      setIsScrolled(scrollPosition > 20)
+    }
 
-  const toggleDarkMode = () => {
-    const root = document.documentElement
-    root.classList.toggle('dark')
-    setIsDark(root.classList.contains('dark'))
-  }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navLinks = [
     { name: 'Home', href: '#home' },
@@ -45,9 +32,12 @@ const Navbar = () => {
     const targetSection = document.getElementById(targetId)
     
     if (targetSection) {
-      targetSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      const navbarHeight = 64
+      const targetPosition = targetSection.offsetTop - navbarHeight
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
       })
     }
   }
@@ -64,8 +54,10 @@ const Navbar = () => {
       className={clsx(
         'sticky top-0 z-50 w-full',
         'backdrop-blur-lg',
-        'bg-white/80 dark:bg-surface/50',
-        'border-b border-white/10 dark:border-primary/20'
+        'transition-all duration-300 ease-in-out',
+        isScrolled
+          ? 'bg-white/95 dark:bg-surface/90 shadow-md border-b border-primary/30'
+          : 'bg-white/80 dark:bg-surface/50 border-b border-white/10 dark:border-primary/20'
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,7 +75,7 @@ const Navbar = () => {
             </a>
           </div>
 
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center gap-2">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -91,7 +83,7 @@ const Navbar = () => {
                 onClick={(e) => handleLinkClick(e, link.href)}
                 onKeyDown={(e) => handleKeyDown(e, () => handleLinkClick(e, link.href))}
                 className={clsx(
-                  'px-4 py-2 rounded-lg',
+                  'px-3 py-2 rounded-lg',
                   'text-slate-700 dark:text-text/80 hover:text-slate-900 dark:hover:text-text',
                   'hover:bg-white/10 dark:hover:bg-primary/10',
                   'transition-all duration-200',
@@ -104,53 +96,31 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={toggleDarkMode}
-              onKeyDown={(e) => handleKeyDown(e, toggleDarkMode)}
-              className={clsx(
-                'p-2 rounded-lg',
-                'text-slate-700 dark:text-text/80 hover:text-slate-900 dark:hover:text-text',
-                'hover:bg-white/10 dark:hover:bg-primary/10',
-                'transition-all duration-200',
-                'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-transparent'
-              )}
-              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              tabIndex={0}
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5" aria-hidden="true" />
-              ) : (
-                <Moon className="w-5 h-5" aria-hidden="true" />
-              )}
-            </button>
-
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              onKeyDown={(e) => handleKeyDown(e, () => setIsMobileMenuOpen(!isMobileMenuOpen))}
-              className={clsx(
-                'md:hidden p-2 rounded-lg',
-                'text-slate-700 dark:text-text/80 hover:text-slate-900 dark:hover:text-text',
-                'hover:bg-white/10 dark:hover:bg-primary/10',
-                'transition-all duration-200',
-                'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-transparent'
-              )}
-              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={isMobileMenuOpen}
-              tabIndex={0}
-            >
-              {isMobileMenuOpen ? (
-                <X className="w-5 h-5" aria-hidden="true" />
-              ) : (
-                <Menu className="w-5 h-5" aria-hidden="true" />
-              )}
-            </button>
-          </div>
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onKeyDown={(e) => handleKeyDown(e, () => setIsMobileMenuOpen(!isMobileMenuOpen))}
+            className={clsx(
+              'md:hidden p-2 rounded-lg',
+              'text-slate-700 dark:text-text/80 hover:text-slate-900 dark:hover:text-text',
+              'hover:bg-white/10 dark:hover:bg-primary/10',
+              'transition-all duration-200',
+              'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-transparent'
+            )}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
+            tabIndex={0}
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-5 h-5" aria-hidden="true" />
+            ) : (
+              <Menu className="w-5 h-5" aria-hidden="true" />
+            )}
+          </button>
         </div>
 
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-white/10 dark:border-primary/20">
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -158,7 +128,7 @@ const Navbar = () => {
                   onClick={(e) => handleLinkClick(e, link.href)}
                   onKeyDown={(e) => handleKeyDown(e, () => handleLinkClick(e, link.href))}
                   className={clsx(
-                    'px-4 py-2 rounded-lg',
+                    'px-3 py-2 rounded-lg',
                     'text-slate-700 dark:text-text/80 hover:text-slate-900 dark:hover:text-text',
                     'hover:bg-white/10 dark:hover:bg-primary/10',
                     'transition-all duration-200',

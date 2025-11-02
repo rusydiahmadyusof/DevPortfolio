@@ -6,9 +6,12 @@ const CTA = () => {
   const handleContact = () => {
     const contactSection = document.getElementById('contact')
     if (contactSection) {
-      contactSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      const navbarHeight = 64
+      const targetPosition = contactSection.offsetTop - navbarHeight
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
       })
     }
   }
@@ -21,14 +24,14 @@ const CTA = () => {
   }
 
   return (
-    <section id="contact" className="py-12 scroll-mt-24">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
+          className="text-center max-w-3xl mx-auto w-full"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-8">
             Let's Work Together!

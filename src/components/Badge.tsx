@@ -10,8 +10,8 @@ const Badge = ({ children, className }: BadgeProps) => {
   return (
     <span
       className={clsx(
-        'inline-flex items-center px-3 py-1 rounded-full',
-        'text-sm font-mono',
+        'inline-flex items-center px-2 py-0.5 rounded-full',
+        'text-xs font-mono',
         'bg-slate-100/80 dark:bg-surface/60 text-primary',
         'border border-primary/20',
         'transition-all duration-200',

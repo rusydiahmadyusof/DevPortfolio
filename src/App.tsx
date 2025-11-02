@@ -1,10 +1,10 @@
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import About from './components/About'
-import TechStack from './components/TechStack'
-import Projects from './components/Projects'
+import Hero from './Sections/Hero'
+import About from './Sections/About'
+import TechStack from './Sections/TechStack'
+import Projects from './Sections/Projects'
 import CTA from './components/CTA'
-import Footer from './components/Footer'
+import Footer from './Sections/Footer'
 
 const App = () => {
   return (
