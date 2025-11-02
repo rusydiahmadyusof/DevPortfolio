@@ -65,13 +65,13 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: 'Project One',
+    title: 'MakanMana',
     description:
-      'A brief description of the project that highlights its main features and technologies used.',
-    imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop',
-    techStack: ['React', 'TypeScript', 'TailwindCSS', 'Vite'],
-    codeUrl: '#',
-    demoUrl: '#',
+      'A warm, inviting web app that helps you decide where to eat nearby. Search for restaurants or let the app "surprise" you with a random pick!',
+    imageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop',
+    techStack: ['React', 'Vite', 'Tailwind'],
+    codeUrl: 'https://github.com/rusydiahmadyusof/MakanMana',
+    demoUrl: 'https://github.com/rusydiahmadyusof/MakanMana',
   },
   {
     title: 'Project Two',
