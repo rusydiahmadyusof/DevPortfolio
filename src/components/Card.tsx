@@ -20,22 +20,29 @@ const Card = ({ children, className, style }: CardProps) => {
   return (
     <motion.div
       className={clsx(
-        'relative rounded-xl p-[1px]',
-        'bg-gradient-to-br from-primary via-accent to-primary',
-        'h-full',
+        'relative rounded-2xl p-[1.5px]',
+        'bg-gradient-to-br from-primary/40 via-accent/40 to-primary/40',
+        'h-full group',
         className
       )}
       style={style}
-      whileHover={{ scale: 1.03 }}
-      transition={{ duration: 0.2 }}
+      whileHover={{ scale: 1.02, y: -4 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
-      <div className="rounded-xl bg-slate-100 dark:bg-surface p-3 md:p-4 transition-colors duration-200 h-full flex flex-col overflow-hidden">{children}</div>
+      <div className="rounded-2xl bg-white dark:bg-surface/95 backdrop-blur-sm p-4 md:p-6 transition-all duration-300 h-full flex flex-col overflow-hidden border border-primary/10 dark:border-primary/20 group-hover:border-primary/30">{children}</div>
       <motion.div
-        className="absolute inset-0 rounded-xl pointer-events-none"
+        className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)',
+        }}
+      />
+      <motion.div
+        className="absolute inset-0 rounded-2xl pointer-events-none"
         initial={{ boxShadow: 'none' }}
         whileHover={{
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          boxShadow: '0 20px 25px -5px rgba(59, 130, 246, 0.2), 0 10px 10px -5px rgba(139, 92, 246, 0.1)',
         }}
+        transition={{ duration: 0.3 }}
       />
     </motion.div>
   )

@@ -31,59 +31,70 @@ const Projects = () => {
   return (
     <section
       id='projects'
-      className='h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden'
+      className='relative h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden'
     >
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col items-center justify-center'>
-        <motion.h2
+      {/* Subtle background pattern */}
+      <div className='absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent dark:via-primary/10' />
+
+      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col items-center justify-center relative z-10'>
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className='text-4xl md:text-5xl font-bold mb-6 md:mb-8 text-center'
+          className='mb-12 md:mb-16 text-center'
         >
-          Featured Projects
-        </motion.h2>
+          <h2 className='text-4xl md:text-5xl font-extrabold mb-4'>
+            Featured <span className='gradient-text'>Projects</span>
+          </h2>
+          <div className='w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full' />
+        </motion.div>
 
-        <div className='max-w-6xl mx-auto w-full flex-1 flex items-center min-h-0'>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full h-full'>
+        <div className='max-w-7xl mx-auto w-full flex-1 flex items-center min-h-0'>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full'>
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.15,
+                  ease: 'easeOut',
+                }}
                 className='h-full'
-                style={{ maxHeight: '350px' }}
               >
-                <Card
-                  className='flex flex-col h-full'
-                  style={{ height: '350px', maxHeight: '350px' }}
-                >
-                  <div className='mb-2 -mx-6 -mt-6 rounded-t-xl overflow-hidden'>
-                    <img
-                      src={project.imageUrl}
-                      alt={`${project.title} preview`}
-                      className='w-full h-24 md:h-28 object-cover'
-                      loading='lazy'
-                    />
+                <Card className='flex flex-col h-full group'>
+                  {/* Image container with overlay */}
+                  <div className='relative mb-4 -mx-6 -mt-6 rounded-t-2xl overflow-hidden'>
+                    <div className='relative w-full h-40 md:h-48 overflow-hidden'>
+                      <img
+                        src={project.imageUrl}
+                        alt={`${project.title} preview`}
+                        className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
+                        loading='lazy'
+                      />
+                      {/* Overlay gradient */}
+                      <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                    </div>
                   </div>
-                  <div className='flex flex-col flex-1 min-h-0'>
-                    <h3 className='text-lg md:text-xl font-bold mb-1.5 md:mb-2'>
+
+                  <div className='flex flex-col flex-1 min-h-0 px-1'>
+                    <h3 className='text-xl md:text-2xl font-bold mb-2 text-slate-900 dark:text-text group-hover:text-primary dark:group-hover:text-primary-light transition-colors duration-300'>
                       {project.title}
                     </h3>
-                    <p
-                      className='text-xs md:text-sm text-slate-600 dark:text-text/80 mb-4 leading-relaxed overflow-hidden text-ellipsis'
-                      style={{ maxHeight: '3.5rem' }}
-                    >
+                    <p className='text-sm md:text-base text-slate-600 dark:text-text-muted mb-4 leading-relaxed line-clamp-3'>
                       {project.description}
                     </p>
-                    <div className='flex flex-wrap gap-1 mb-3'>
+
+                    <div className='flex flex-wrap gap-2 mb-4'>
                       {project.techStack.map((tech) => (
                         <Badge key={tech}>{tech}</Badge>
                       ))}
                     </div>
-                    <div className='flex flex-row gap-2 mt-auto'>
+
+                    <div className='flex flex-row gap-2 mt-auto pt-2'>
                       <Button
                         variant='outline'
                         onClick={() => window.open(project.codeUrl, '_blank')}
@@ -92,37 +103,33 @@ const Projects = () => {
                             window.open(project.codeUrl, '_blank')
                           )
                         }
-                        className='w-full flex items-center justify-center gap-1.5 text-xs py-1.5 px-2'
+                        className='flex-1 flex items-center justify-center gap-2 text-sm py-2 px-3'
                         tabIndex={0}
                         aria-label={`View code for ${project.title}`}
                       >
-                        <span className='flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 dark:bg-primary/20 border border-primary/30'>
-                          <Github
-                            className='w-3 h-3'
-                            aria-hidden='true'
-                          />
-                        </span>
-                        View Code
+                        <Github
+                          className='w-4 h-4'
+                          aria-hidden='true'
+                        />
+                        <span className='hidden sm:inline'>Code</span>
                       </Button>
                       <Button
-                        variant='outline'
+                        variant='primary'
                         onClick={() => window.open(project.demoUrl, '_blank')}
                         onKeyDown={(e) =>
                           handleKeyDown(e, () =>
                             window.open(project.demoUrl, '_blank')
                           )
                         }
-                        className='w-full flex items-center justify-center gap-1.5 text-xs py-1.5 px-2'
+                        className='flex-1 flex items-center justify-center gap-2 text-sm py-2 px-3'
                         tabIndex={0}
                         aria-label={`View live demo for ${project.title}`}
                       >
-                        <span className='flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 dark:bg-primary/20 border border-primary/30'>
-                          <ExternalLink
-                            className='w-3 h-3'
-                            aria-hidden='true'
-                          />
-                        </span>
-                        Live Demo
+                        <ExternalLink
+                          className='w-4 h-4'
+                          aria-hidden='true'
+                        />
+                        <span className='hidden sm:inline'>Demo</span>
                       </Button>
                     </div>
                   </div>

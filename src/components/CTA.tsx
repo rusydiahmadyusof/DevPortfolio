@@ -39,32 +39,59 @@ const CTA = () => {
   }
 
   return (
-    <section id="contact" className="h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex items-center justify-center">
+    <section id="contact" className="relative h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden">
+      {/* Animated background gradient */}
+      <div className="absolute inset-0 bg-gradient-mesh opacity-40 dark:opacity-20" />
+      <div className="absolute inset-0 bg-gradient-radial from-accent/10 via-transparent to-primary/10 dark:from-accent/20 dark:to-primary/20" />
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex items-center justify-center relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto w-full"
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="text-center max-w-4xl mx-auto w-full space-y-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">
-            Let's Work Together!
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-text/80 mb-8">
-            I'm always open to discussing new projects, creative ideas, or opportunities
-            to be part of your visions.
-          </p>
-          <Button
-            onClick={handleContact}
-            onKeyDown={(e) => handleKeyDown(e, handleContact)}
-            variant="primary"
-            className="text-lg px-8 py-3"
-            tabIndex={0}
-            aria-label="Get in touch"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Get In Touch
-          </Button>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">
+              Let's Work <span className="gradient-text">Together!</span>
+            </h2>
+            <div className="w-32 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full mb-8" />
+          </motion.div>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-lg md:text-xl text-slate-700 dark:text-text-light leading-relaxed max-w-2xl mx-auto"
+          >
+            I'm always open to discussing new projects, creative ideas, or opportunities
+            to be part of your visions. Let's build something amazing together.
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <Button
+              onClick={handleContact}
+              onKeyDown={(e) => handleKeyDown(e, handleContact)}
+              variant="primary"
+              className="text-lg px-10 py-4 shadow-glow-lg"
+              tabIndex={0}
+              aria-label="Get in touch"
+            >
+              Get In Touch
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
     </section>

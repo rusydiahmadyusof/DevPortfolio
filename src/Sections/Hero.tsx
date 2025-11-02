@@ -61,30 +61,66 @@ const Hero = () => {
   return (
     <section
       id='home'
-      className='h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden'
+      className='relative h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden'
     >
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col items-center justify-center'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
+      {/* Animated background gradient */}
+      <div className='absolute inset-0 bg-gradient-mesh opacity-50 dark:opacity-30' />
+      <div className='absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-accent/5 dark:from-primary/10 dark:to-accent/10' />
+      
+      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col items-center justify-center relative z-10'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full'>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className='space-y-6'
           >
-            <h1 className='text-5xl md:text-6xl lg:text-7xl font-bold mb-6'>
-              Hi, I'm Rusydi 👋
-            </h1>
-            <h2 className='text-2xl md:text-3xl font-semibold text-primary mb-4'>
-              Frontend Developer & UI/UX Enthusiast
-            </h2>
-            <p className='text-lg md:text-xl text-slate-600 dark:text-text/80 mb-8 max-w-lg'>
-              I build responsive, accessible, and delightful web experiences.
-            </p>
-            <div className='flex flex-col sm:flex-row gap-4'>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h1 className='text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight'>
+                Hi, I'm{' '}
+                <span className='gradient-text'>Rusydi</span>{' '}
+                <motion.span
+                  animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }}
+                  transition={{ duration: 0.5, delay: 1 }}
+                  className='inline-block'
+                >
+                  👋
+                </motion.span>
+              </h1>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <h2 className='text-2xl md:text-3xl lg:text-4xl font-bold text-primary dark:text-primary-light mb-2'>
+                Frontend Developer & UI/UX Enthusiast
+              </h2>
+            </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className='text-lg md:text-xl text-slate-600 dark:text-text-muted mb-8 max-w-xl leading-relaxed'
+            >
+              I build responsive, accessible, and delightful web experiences that users love. 
+              Transforming ideas into polished, performant digital solutions.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className='flex flex-col sm:flex-row gap-4'
+            >
               <Button
                 onClick={handleViewProjects}
                 onKeyDown={(e) => handleKeyDown(e, handleViewProjects)}
                 variant='primary'
-                className='w-full sm:w-auto'
+                className='w-full sm:w-auto text-base'
                 tabIndex={0}
                 aria-label='View Projects'
               >
@@ -94,25 +130,38 @@ const Hero = () => {
                 onClick={handleContactMe}
                 onKeyDown={(e) => handleKeyDown(e, handleContactMe)}
                 variant='outline'
-                className='w-full sm:w-auto'
+                className='w-full sm:w-auto text-base'
                 tabIndex={0}
                 aria-label='Contact Me'
               >
                 Contact Me
               </Button>
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className='flex justify-center lg:justify-end'
+            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+            className='flex justify-center lg:justify-end relative'
           >
-            <div className='w-64 h-64 md:w-80 md:h-80 rounded-full bg-slate-100 dark:bg-surface/60 border-2 border-primary/20 flex items-center justify-center transition-colors duration-200'>
-              <span className='text-slate-400 dark:text-text/40 text-sm font-mono'>
-                Profile Image
-              </span>
+            <div className='relative'>
+              {/* Glow effect */}
+              <div className='absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl animate-pulse' />
+              
+              {/* Profile image container */}
+              <div className='relative w-64 h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 p-1 shadow-glow-lg'>
+                <div className='w-full h-full rounded-2xl bg-white dark:bg-surface border-2 border-primary/30 dark:border-primary/40 flex items-center justify-center backdrop-blur-sm'>
+                  <div className='text-center space-y-2'>
+                    <div className='w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center'>
+                      <span className='text-4xl md:text-5xl'>👨‍💻</span>
+                    </div>
+                    <span className='text-slate-400 dark:text-text-muted text-xs md:text-sm font-mono block'>
+                      Profile Image
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
