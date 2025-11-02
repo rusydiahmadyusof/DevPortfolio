@@ -6,6 +6,13 @@ interface BadgeProps {
   className?: string
 }
 
+/**
+ * Badge Component
+ * A small pill-shaped component used for displaying tech stack tags and labels.
+ * Features hover glow effect and responsive styling for light/dark modes.
+ * @param children - Text or content to display in the badge
+ * @param className - Additional CSS classes to merge with default badge styles
+ */
 const Badge = ({ children, className }: BadgeProps) => {
   return (
     <span

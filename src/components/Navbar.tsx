@@ -2,10 +2,19 @@ import { useState, useEffect, type KeyboardEvent } from 'react'
 import { Menu, X } from 'lucide-react'
 import { clsx } from 'clsx'
 
+/**
+ * Navbar Component
+ * Displays the main navigation bar with logo, navigation links, and mobile menu toggle.
+ * Handles smooth scrolling to sections and manages scroll-based styling changes.
+ */
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
+  /**
+   * Handles scroll events to update navbar styling when scrolled past 20px
+   * Adds visual feedback by changing background opacity and border styles
+   */
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY
@@ -16,6 +25,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Navigation links configuration for desktop and mobile menus
   const navLinks = [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
@@ -24,13 +34,22 @@ const Navbar = () => {
     { name: 'Contact', href: '#contact' },
   ]
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement> | React.KeyboardEvent<HTMLAnchorElement>, href: string) => {
+  /**
+   * Handles navigation link clicks with smooth scrolling
+   * @param e - Mouse or keyboard event
+   * @param href - Target section anchor (e.g., '#home')
+   * Calculates scroll position accounting for navbar height (64px) to prevent content overlap
+   */
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement> | React.KeyboardEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     e.preventDefault()
     setIsMobileMenuOpen(false)
-    
+
     const targetId = href.replace('#', '')
     const targetSection = document.getElementById(targetId)
-    
+
     if (targetSection) {
       const navbarHeight = 64
       const targetPosition = targetSection.offsetTop - navbarHeight
@@ -42,6 +61,12 @@ const Navbar = () => {
     }
   }
 
+  /**
+   * Handles keyboard accessibility for interactive elements
+   * Allows Enter or Space key to trigger actions (for accessibility compliance)
+   * @param e - Keyboard event
+   * @param action - Function to execute when Enter or Space is pressed
+   */
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>, action: () => void) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()

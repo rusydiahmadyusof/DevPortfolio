@@ -1,5 +1,11 @@
 import { motion } from 'framer-motion'
 
+/**
+ * About Section Component
+ * Displays information about the developer with animated content.
+ * Features two-column layout with image placeholder and descriptive text.
+ * Uses Framer Motion for scroll-triggered animations.
+ */
 const About = () => {
   return (
     <section id="about" className="h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden">

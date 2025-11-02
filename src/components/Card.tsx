@@ -1,13 +1,22 @@
-import { ReactNode } from 'react'
+import { ReactNode, CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import { clsx } from 'clsx'
 
 interface CardProps {
   children: ReactNode
   className?: string
+  style?: CSSProperties
 }
 
-const Card = ({ children, className }: CardProps) => {
+/**
+ * Card Component
+ * A reusable card container with gradient border, hover animations, and shadow effects.
+ * Features Framer Motion animations for interactive hover states.
+ * @param children - Content to be displayed inside the card
+ * @param className - Additional CSS classes to merge with default card styles
+ * @param style - Optional inline styles to apply to the card
+ */
+const Card = ({ children, className, style }: CardProps) => {
   return (
     <motion.div
       className={clsx(
@@ -16,6 +25,7 @@ const Card = ({ children, className }: CardProps) => {
         'h-full',
         className
       )}
+      style={style}
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.2 }}
     >

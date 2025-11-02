@@ -1,7 +1,18 @@
 import { type KeyboardEvent } from 'react'
 import { Github, Linkedin } from 'lucide-react'
 
+/**
+ * Footer Component
+ * Displays copyright information and social media links (GitHub, LinkedIn).
+ * Provides external links with proper security attributes (rel="noopener noreferrer").
+ */
 const Footer = () => {
+  /**
+   * Handles keyboard accessibility for social media links
+   * Enables Enter or Space key to open social media profiles in new tabs
+   * @param e - Keyboard event
+   * @param action - Function to execute when Enter or Space is pressed
+   */
   const handleKeyDown = (e: KeyboardEvent<HTMLAnchorElement>, action: () => void) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()

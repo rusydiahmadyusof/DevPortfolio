@@ -2,7 +2,16 @@ import { type KeyboardEvent } from 'react'
 import { motion } from 'framer-motion'
 import Button from './Button'
 
+/**
+ * Call-to-Action (CTA) Section Component
+ * Displays a contact invitation with a call-to-action button.
+ * Encourages user engagement and provides smooth scroll navigation.
+ */
 const CTA = () => {
+  /**
+   * Scrolls to the contact section with smooth animation
+   * Accounts for navbar height (64px) to ensure proper section visibility
+   */
   const handleContact = () => {
     const contactSection = document.getElementById('contact')
     if (contactSection) {
@@ -16,6 +25,12 @@ const CTA = () => {
     }
   }
 
+  /**
+   * Handles keyboard accessibility for the CTA button
+   * Enables Enter or Space key to trigger the contact scroll action
+   * @param e - Keyboard event
+   * @param action - Function to execute when Enter or Space is pressed
+   */
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>, action: () => void) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
@@ -37,7 +52,7 @@ const CTA = () => {
             Let's Work Together!
           </h2>
           <p className="text-lg text-slate-600 dark:text-text/80 mb-8">
-            I'm always open to discussing new projects, creative ideas, or opportunities 
+            I'm always open to discussing new projects, creative ideas, or opportunities
             to be part of your visions.
           </p>
           <Button

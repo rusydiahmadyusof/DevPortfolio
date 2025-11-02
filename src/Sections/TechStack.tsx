@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion'
 import { techItems } from '../constants/constants'
 
+/**
+ * Tech Stack Section Component
+ * Displays a grid of technology icons and names.
+ * Features hover animations (scale and lift) with shadow effects.
+ * Cards animate on scroll with staggered delays for visual appeal.
+ */
 const TechStack = () => {
   return (
     <section id="skills" className="h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden">
