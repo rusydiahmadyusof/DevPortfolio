@@ -38,14 +38,14 @@ const About = () => {
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl opacity-50" />
             
             {/* Image container */}
-            <div className="relative w-full h-64 md:h-96 rounded-2xl bg-gradient-to-br from-primary/30 via-accent/30 to-primary/30 p-1 shadow-glow">
-              <div className="w-full h-full rounded-2xl bg-white dark:bg-surface border-2 border-primary/30 dark:border-primary/40 flex items-center justify-center backdrop-blur-sm">
-                <div className="text-center space-y-3">
-                  <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
-                    <span className="text-5xl md:text-6xl">💻</span>
-                  </div>
-                  <span className="text-slate-400 dark:text-text-muted text-sm font-mono block">About Image</span>
-                </div>
+            <div className="relative w-full h-64 md:h-96 rounded-2xl bg-gradient-to-br from-primary/30 via-accent/30 to-primary/30 p-1 shadow-glow overflow-hidden">
+              <div className="w-full h-full rounded-2xl bg-white dark:bg-surface border-2 border-primary/30 dark:border-primary/40 overflow-hidden backdrop-blur-sm">
+                <img
+                  src="/images/cafe.jpg"
+                  alt="Rusydi Ahmad Yusof - Frontend Developer"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
               </div>
             </div>
           </motion.div>

@@ -147,19 +147,17 @@ const Hero = () => {
           >
             <div className='relative'>
               {/* Glow effect */}
-              <div className='absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl animate-pulse' />
+              <div className='absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl animate-pulse' />
               
               {/* Profile image container */}
-              <div className='relative w-64 h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 p-1 shadow-glow-lg'>
-                <div className='w-full h-full rounded-2xl bg-white dark:bg-surface border-2 border-primary/30 dark:border-primary/40 flex items-center justify-center backdrop-blur-sm'>
-                  <div className='text-center space-y-2'>
-                    <div className='w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center'>
-                      <span className='text-4xl md:text-5xl'>👨‍💻</span>
-                    </div>
-                    <span className='text-slate-400 dark:text-text-muted text-xs md:text-sm font-mono block'>
-                      Profile Image
-                    </span>
-                  </div>
+              <div className='relative w-64 h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 p-1 shadow-glow-lg overflow-hidden'>
+                <div className='w-full h-full rounded-2xl bg-white dark:bg-surface border-2 border-primary/30 dark:border-primary/40 overflow-hidden backdrop-blur-sm'>
+                  <img
+                    src='/images/hero.jpg'
+                    alt='Rusydi Ahmad - Frontend Developer'
+                    className='w-full h-full object-cover'
+                    loading='eager'
+                  />
                 </div>
               </div>
             </div>
