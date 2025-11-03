@@ -61,26 +61,26 @@ const Hero = () => {
   return (
     <section
       id='home'
-      className='relative h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden'
+      className='relative min-h-screen flex items-center justify-center py-8 sm:py-12 md:py-16 scroll-mt-24 overflow-hidden'
     >
       {/* Animated background gradient */}
       <div className='absolute inset-0 bg-gradient-mesh opacity-50 dark:opacity-30' />
       <div className='absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-accent/5 dark:from-primary/10 dark:to-accent/10' />
       
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col items-center justify-center relative z-10'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full'>
+      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center justify-center relative z-10 py-8 sm:py-12'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center w-full'>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className='space-y-6'
+            className='space-y-4 sm:space-y-6 text-center lg:text-left'
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h1 className='text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight'>
+              <h1 className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-3 sm:mb-4 leading-tight'>
                 Hi, I'm{' '}
                 <span className='gradient-text'>Rusydi</span>{' '}
                 <motion.span
@@ -97,7 +97,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h2 className='text-2xl md:text-3xl lg:text-4xl font-bold text-primary dark:text-primary-light mb-2'>
+              <h2 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary dark:text-primary-light mb-2'>
                 Frontend Developer & UI/UX Enthusiast
               </h2>
             </motion.div>
@@ -105,7 +105,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className='text-lg md:text-xl text-slate-600 dark:text-text-muted mb-8 max-w-xl leading-relaxed'
+              className='text-base sm:text-lg md:text-xl text-slate-600 dark:text-text-muted mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed'
             >
               I build responsive, accessible, and delightful web experiences that users love. 
               Transforming ideas into polished, performant digital solutions.
@@ -114,13 +114,13 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className='flex flex-col sm:flex-row gap-4'
+              className='flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start'
             >
               <Button
                 onClick={handleViewProjects}
                 onKeyDown={(e) => handleKeyDown(e, handleViewProjects)}
                 variant='primary'
-                className='w-full sm:w-auto text-base'
+                className='w-full sm:w-auto text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3'
                 tabIndex={0}
                 aria-label='View Projects'
               >
@@ -130,7 +130,7 @@ const Hero = () => {
                 onClick={handleContactMe}
                 onKeyDown={(e) => handleKeyDown(e, handleContactMe)}
                 variant='outline'
-                className='w-full sm:w-auto text-base'
+                className='w-full sm:w-auto text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3'
                 tabIndex={0}
                 aria-label='Contact Me'
               >
@@ -143,14 +143,14 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-            className='flex justify-center lg:justify-end relative'
+            className='flex justify-center lg:justify-end relative mt-8 lg:mt-0'
           >
             <div className='relative'>
               {/* Glow effect */}
               <div className='absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl animate-pulse' />
               
               {/* Profile image container */}
-              <div className='relative w-64 h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 p-1 shadow-glow-lg overflow-hidden'>
+              <div className='relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 p-1 shadow-glow-lg overflow-hidden'>
                 <div className='w-full h-full rounded-2xl bg-white dark:bg-surface border-2 border-primary/30 dark:border-primary/40 overflow-hidden backdrop-blur-sm'>
                   <img
                     src='/images/hero.jpg'
