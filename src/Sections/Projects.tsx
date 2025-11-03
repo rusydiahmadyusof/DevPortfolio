@@ -31,27 +31,27 @@ const Projects = () => {
   return (
     <section
       id='projects'
-      className='relative h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden'
+      className='relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 scroll-mt-24 overflow-hidden'
     >
       {/* Subtle background pattern */}
       <div className='absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent dark:via-primary/10' />
 
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col items-center justify-center relative z-10'>
+      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center justify-center relative z-10 py-8 sm:py-12'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className='mb-12 md:mb-16 text-center'
+          className='mb-8 sm:mb-12 md:mb-16 text-center'
         >
-          <h2 className='text-4xl md:text-5xl font-extrabold mb-4'>
+          <h2 className='text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 sm:mb-4'>
             Featured <span className='gradient-text'>Projects</span>
           </h2>
           <div className='w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full' />
         </motion.div>
 
-        <div className='max-w-7xl mx-auto w-full flex-1 flex items-center min-h-0'>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full'>
+        <div className='max-w-7xl mx-auto w-full'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 w-full'>
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}
@@ -68,7 +68,7 @@ const Projects = () => {
                 <Card className='flex flex-col h-full group'>
                   {/* Image container with overlay */}
                   <div className='relative mb-4 -mx-6 -mt-6 rounded-t-2xl overflow-hidden'>
-                    <div className='relative w-full h-40 md:h-48 overflow-hidden'>
+                    <div className='relative w-full h-36 sm:h-40 md:h-48 overflow-hidden'>
                       <img
                         src={project.imageUrl}
                         alt={`${project.title} preview`}
@@ -81,14 +81,14 @@ const Projects = () => {
                   </div>
 
                   <div className='flex flex-col flex-1 min-h-0 px-1'>
-                    <h3 className='text-xl md:text-2xl font-bold mb-2 text-slate-900 dark:text-text group-hover:text-primary dark:group-hover:text-primary-light transition-colors duration-300'>
+                    <h3 className='text-lg sm:text-xl md:text-2xl font-bold mb-2 text-slate-900 dark:text-text group-hover:text-primary dark:group-hover:text-primary-light transition-colors duration-300'>
                       {project.title}
                     </h3>
-                    <p className='text-sm md:text-base text-slate-600 dark:text-text-muted mb-4 leading-relaxed line-clamp-3'>
+                    <p className='text-xs sm:text-sm md:text-base text-slate-600 dark:text-text-muted mb-3 sm:mb-4 leading-relaxed line-clamp-3'>
                       {project.description}
                     </p>
 
-                    <div className='flex flex-wrap gap-2 mb-4'>
+                    <div className='flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4'>
                       {project.techStack.map((tech) => (
                         <Badge key={tech}>{tech}</Badge>
                       ))}
@@ -103,12 +103,12 @@ const Projects = () => {
                             window.open(project.codeUrl, '_blank')
                           )
                         }
-                        className='flex-1 flex items-center justify-center gap-2 text-sm py-2 px-3'
+                        className='flex-1 flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm py-1.5 sm:py-2 px-2 sm:px-3'
                         tabIndex={0}
                         aria-label={`View code for ${project.title}`}
                       >
                         <Github
-                          className='w-4 h-4'
+                          className='w-3.5 h-3.5 sm:w-4 sm:h-4'
                           aria-hidden='true'
                         />
                         <span className='hidden sm:inline'>Code</span>
@@ -121,12 +121,12 @@ const Projects = () => {
                             window.open(project.demoUrl, '_blank')
                           )
                         }
-                        className='flex-1 flex items-center justify-center gap-2 text-sm py-2 px-3'
+                        className='flex-1 flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm py-1.5 sm:py-2 px-2 sm:px-3'
                         tabIndex={0}
                         aria-label={`View live demo for ${project.title}`}
                       >
                         <ExternalLink
-                          className='w-4 h-4'
+                          className='w-3.5 h-3.5 sm:w-4 sm:h-4'
                           aria-hidden='true'
                         />
                         <span className='hidden sm:inline'>Demo</span>
