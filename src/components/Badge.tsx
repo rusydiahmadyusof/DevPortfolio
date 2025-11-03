@@ -17,10 +17,11 @@ const Badge = ({ children, className }: BadgeProps) => {
   return (
     <span
       className={clsx(
-        'inline-flex items-center px-3 py-1 rounded-full',
-        'text-xs font-mono font-medium',
-        'bg-surface border border-white/20',
-        'text-text/80',
+        'inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full',
+        'text-[10px] sm:text-xs font-mono font-medium',
+        'bg-gradient-to-r from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20',
+        'text-primary dark:text-primary-light',
+        'border border-primary/30 dark:border-primary/40',
         'backdrop-blur-sm',
         'transition-all duration-300',
         'hover:border-white/40 hover:scale-105',

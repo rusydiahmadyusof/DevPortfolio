@@ -9,7 +9,7 @@ import OptimizedImage from '../components/OptimizedImage'
  */
 const About = () => {
   return (
-    <section id="about" className="relative min-h-screen flex items-center py-0 md:py-20 px-4 overflow-hidden">
+    <section id="about" className="relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 scroll-mt-24 overflow-hidden">
       {/* Background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
         <svg
@@ -37,20 +37,19 @@ const About = () => {
         <div className='absolute bottom-20 right-10 w-96 h-96 bg-accent-blue/10 rounded-full blur-3xl animate-pulse' style={{ animationDelay: '1s' }} />
       </div>
 
-      <div className="container mx-auto max-w-6xl w-full relative z-10 flex-1 flex flex-col justify-center pt-4 md:pt-0">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl w-full flex flex-col items-center justify-center relative z-10 py-8 sm:py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-4 md:mb-8 lg:mb-12 text-center"
+          className="mb-8 sm:mb-12 md:mb-16 text-center"
         >
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-text mb-2 md:mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 sm:mb-4 text-white">
             About Me
           </h2>
         </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center w-full max-w-6xl">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -62,8 +61,8 @@ const About = () => {
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl opacity-50" />
             
             {/* Image container */}
-            <div className="relative w-full h-64 md:h-96 rounded-2xl bg-gradient-to-br from-primary/30 via-accent/30 to-primary/30 p-1 shadow-glow overflow-hidden">
-              <div className="w-full h-full rounded-2xl bg-surface border-2 border-primary/40 overflow-hidden backdrop-blur-sm">
+            <div className="relative w-full h-56 sm:h-64 md:h-80 lg:h-96 rounded-2xl bg-gradient-to-br from-primary/30 via-accent/30 to-primary/30 p-1 shadow-glow overflow-hidden">
+              <div className="w-full h-full rounded-2xl bg-white dark:bg-surface border-2 border-primary/30 dark:border-primary/40 overflow-hidden backdrop-blur-sm">
                 <OptimizedImage
                   src="/images/cafe.jpg"
                   alt="Rusydi Ahmad Yusof - Frontend Developer"
@@ -79,20 +78,20 @@ const About = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="space-y-3 md:space-y-6"
+            className="space-y-4 sm:space-y-6"
           >
-            <p className="text-sm md:text-lg lg:text-xl text-text-light leading-relaxed">
-              I'm a passionate <span className="font-semibold text-primary-light">Front-End Web Developer</span> who builds responsive, modern websites using React and Tailwind CSS. I focus on clean code and creating great user experiences.
+            <p className="text-base sm:text-lg md:text-xl text-text-light leading-relaxed">
+              I'm a passionate <span className="font-semibold text-primary-light">Front-End Web Developer</span> who builds responsive, modern websites using React and Tailwind CSS. I focus on writing clean code and creating seamless digital experiences that blend design with functionality.
             </p>
-            <div className="pt-2 md:pt-4">
-              <div className="flex flex-wrap gap-3">
-                <span className="px-4 py-2 rounded-lg bg-primary/20 text-primary-light font-medium text-sm border border-primary/30">
+            <div className="pt-2 sm:pt-4">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-primary/20 text-primary-light font-medium text-xs sm:text-sm border border-primary/20">
                   Clean Code
                 </span>
-                <span className="px-4 py-2 rounded-lg bg-accent/20 text-accent-light font-medium text-sm border border-accent/30">
+                <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-accent/20 text-accent-light font-medium text-xs sm:text-sm border border-accent/20">
                   User Experience
                 </span>
-                <span className="px-4 py-2 rounded-lg bg-primary/20 text-primary-light font-medium text-sm border border-primary/30">
+                <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-primary/20 text-primary-light font-medium text-xs sm:text-sm border border-primary/20">
                   Performance
                 </span>
               </div>

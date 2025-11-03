@@ -118,7 +118,7 @@ const Projects = () => {
   return (
     <section
       id='projects'
-      className='relative min-h-screen flex items-center py-0 md:py-20 px-4 overflow-hidden'
+      className='relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 scroll-mt-24 overflow-hidden'
     >
       {/* Background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
@@ -146,26 +146,23 @@ const Projects = () => {
         <div className='absolute top-1/2 right-0 w-80 h-80 bg-accent-yellow/5 rounded-full blur-3xl animate-pulse' style={{ animationDelay: '2s' }} />
       </div>
 
-      <div className='container mx-auto max-w-7xl w-full relative z-10 flex-1 flex flex-col justify-center pt-4 md:pt-0'>
+      <div className='container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl w-full flex flex-col items-center justify-center relative z-10 py-8 sm:py-12'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className='mb-4 md:mb-12 lg:mb-16 text-center'
+          className='mb-8 sm:mb-12 md:mb-16 text-center'
         >
-          <p className='text-xs md:text-base text-accent-pink mb-1 md:mb-2 font-medium'>
-            My Work
-          </p>
-          <h2 className='text-2xl md:text-4xl lg:text-5xl font-extrabold text-text mb-2 md:mb-4'>
-            See featured projects
+          <h2 className='text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 sm:mb-4 text-white'>
+            Featured Projects
           </h2>
         </motion.div>
 
         {/* Mobile: Horizontal scrollable | Desktop: Grid */}
         <div 
           ref={scrollContainerRef}
-          className='flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 snap-x snap-mandatory md:snap-none scrollbar-hide px-2 md:px-0 -mx-2 md:mx-0'
+          className='flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 snap-x snap-mandatory md:snap-none scrollbar-hide px-2 md:px-0 w-full max-w-7xl -mx-2 md:mx-auto'
           style={{ 
             scrollBehavior: 'smooth',
             WebkitOverflowScrolling: 'touch' 
@@ -190,7 +187,7 @@ const Projects = () => {
               >
                 {/* Image container */}
                 <div className='relative mb-4 -mx-4 -mt-4 rounded-t-xl overflow-hidden'>
-                  <div className='relative w-full h-48 overflow-hidden'>
+                  <div className='relative w-full h-36 sm:h-40 md:h-48 overflow-hidden'>
                     <OptimizedImage
                       src={project.imageUrl}
                       alt={`${project.title} preview`}
@@ -200,15 +197,15 @@ const Projects = () => {
                   </div>
                 </div>
 
-                <div className='flex flex-col flex-1 min-h-0'>
-                  <h3 className='text-xl md:text-2xl font-bold mb-2 text-text group-hover:text-accent-pink transition-colors duration-300'>
+                <div className='flex flex-col flex-1 min-h-0 px-1'>
+                  <h3 className='text-lg sm:text-xl md:text-2xl font-bold mb-2 text-white group-hover:text-primary-light transition-colors duration-300'>
                     {project.title}
                   </h3>
-                  <p className='text-sm md:text-base text-text-muted mb-4 leading-relaxed line-clamp-3'>
+                  <p className='text-xs sm:text-sm md:text-base text-text-muted mb-3 sm:mb-4 leading-relaxed line-clamp-3'>
                     {project.description}
                   </p>
 
-                  <div className='flex flex-wrap gap-2 mb-4'>
+                  <div className='flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4'>
                     {project.techStack.map((tech) => (
                       <Badge key={tech}>{tech}</Badge>
                     ))}
@@ -223,7 +220,7 @@ const Projects = () => {
                       }
                       disabled={!isValidUrl(project.codeUrl)}
                       className={clsx(
-                        'flex-1 flex items-center justify-center gap-2 text-sm py-2 px-3 border-white/20 text-text hover:bg-white/10',
+                        'flex-1 flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm py-1.5 sm:py-2 px-2 sm:px-3',
                         !isValidUrl(project.codeUrl) && 'opacity-50 cursor-not-allowed'
                       )}
                       tabIndex={isValidUrl(project.codeUrl) ? 0 : -1}
@@ -231,7 +228,7 @@ const Projects = () => {
                       title={!isValidUrl(project.codeUrl) ? 'Code not available' : undefined}
                     >
                       <Github
-                        className='w-4 h-4'
+                        className='w-3.5 h-3.5 sm:w-4 sm:h-4'
                         aria-hidden='true'
                       />
                       <span className='hidden sm:inline'>Code</span>
@@ -244,7 +241,7 @@ const Projects = () => {
                       }
                       disabled={!isValidUrl(project.demoUrl)}
                       className={clsx(
-                        'flex-1 flex items-center justify-center gap-2 text-sm py-2 px-3',
+                        'flex-1 flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm py-1.5 sm:py-2 px-2 sm:px-3',
                         !isValidUrl(project.demoUrl) && 'opacity-50 cursor-not-allowed'
                       )}
                       tabIndex={isValidUrl(project.demoUrl) ? 0 : -1}
@@ -252,7 +249,7 @@ const Projects = () => {
                       title={!isValidUrl(project.demoUrl) ? 'Demo not available' : undefined}
                     >
                       <ExternalLink
-                        className='w-4 h-4'
+                        className='w-3.5 h-3.5 sm:w-4 sm:h-4'
                         aria-hidden='true'
                       />
                       <span className='hidden sm:inline'>Demo</span>

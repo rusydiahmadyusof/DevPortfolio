@@ -21,28 +21,28 @@ const Contact = () => {
     }
   }, []);
 
-  // Update these URLs with your actual social media profiles and email (memoized)
+  // Social media profiles and contact information (memoized for performance)
   const socialLinks = useMemo(
     () => [
       {
         name: 'LinkedIn',
         icon: Linkedin,
-        url: 'https://linkedin.com/in/yourprofile', // Update with your LinkedIn profile
+        url: 'https://linkedin.com/in/rusydiahmadyusof', // Update with your LinkedIn profile URL
       },
       {
         name: 'Instagram',
         icon: Instagram,
-        url: 'https://instagram.com/yourprofile', // Update with your Instagram profile
+        url: 'https://instagram.com/rusydiahmadyusof', // Update with your Instagram profile URL
       },
       {
         name: 'GitHub',
         icon: Github,
-        url: 'https://github.com/rusydiahmadyusof', // Update with your GitHub profile
+        url: 'https://github.com/rusydiahmadyusof',
       },
       {
         name: 'Email',
         icon: Mail,
-        url: 'mailto:your.email@example.com', // Update with your email
+        url: 'mailto:rusydi@example.com', // Update with your email address
       },
     ],
     []
