@@ -19,12 +19,11 @@ const Badge = ({ children, className }: BadgeProps) => {
       className={clsx(
         'inline-flex items-center px-3 py-1 rounded-full',
         'text-xs font-mono font-medium',
-        'bg-gradient-to-r from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20',
-        'text-primary dark:text-primary-light',
-        'border border-primary/30 dark:border-primary/40',
+        'bg-surface border border-white/20',
+        'text-text/80',
         'backdrop-blur-sm',
         'transition-all duration-300',
-        'hover:border-primary/60 hover:shadow-glow hover:scale-105',
+        'hover:border-white/40 hover:scale-105',
         className
       )}
     >

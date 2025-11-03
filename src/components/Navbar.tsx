@@ -1,96 +1,210 @@
-import { useState, useEffect, type KeyboardEvent } from 'react';
-import { Menu, X } from 'lucide-react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  type KeyboardEvent,
+} from 'react';
+import { Home, User, Code, FolderKanban, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 
 /**
  * Navbar Component
- * Displays the main navigation bar with logo, navigation links, and mobile menu toggle.
- * Handles smooth scrolling to sections and manages scroll-based styling changes.
- * Features active section highlighting based on scroll position.
+ * Floating bottom navigation bar with icon-based navigation.
+ * Features glassmorphism design and active section highlighting.
  */
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isScrolling, setIsScrolling] = useState(false);
 
   /**
-   * Handles scroll events to update navbar styling when scrolled past 20px
-   * Adds visual feedback by changing background opacity and border styles
-   * Also tracks active section based on scroll position
+   * Memoized sections array for performance
    */
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 20);
+  const sections = useMemo(
+    () => ['home', 'about', 'skills', 'projects', 'contact'],
+    []
+  );
 
-      // Determine active section based on scroll position
-      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
-      const navbarHeight = 64;
+  /**
+   * Optimized scroll handler with useCallback
+   */
+  const handleScroll = useCallback(() => {
+    if (isScrolling) return;
 
+    try {
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
         if (section) {
-          const sectionTop = section.offsetTop - navbarHeight - 100;
-          if (scrollPosition >= sectionTop) {
+          const rect = section.getBoundingClientRect();
+          // Check if section is in viewport
+          if (rect.top <= 200 && rect.bottom >= 100) {
             setActiveSection(sections[i]);
             break;
           }
         }
       }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Navigation links configuration for desktop and mobile menus
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
-  ];
+    } catch (error) {
+      // Silently handle errors to prevent breaking the app
+      if (import.meta.env.DEV) {
+        console.error('Error in scroll handler:', error);
+      }
+    }
+  }, [isScrolling, sections]);
 
   /**
-   * Handles navigation link clicks with smooth scrolling
-   * @param e - Mouse or keyboard event
-   * @param href - Target section anchor (e.g., '#home')
-   * Calculates scroll position accounting for navbar height (64px) to prevent content overlap
+   * Handles scroll events to track active section based on scroll position
+   * Uses debouncing to work smoothly with programmatic scrolling
    */
-  const handleLinkClick = (
-    e:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.KeyboardEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
-    e.preventDefault();
-    setIsMobileMenuOpen(false);
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null;
 
-    const targetId = href.replace('#', '');
-    const targetSection = document.getElementById(targetId);
+    const debouncedHandleScroll = () => {
+      // Clear previous timeout
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
 
-    if (targetSection) {
-      const navbarHeight = 64;
-      const targetPosition = targetSection.offsetTop - navbarHeight;
+      // Debounce scroll handler
+      timeoutId = setTimeout(handleScroll, 150);
+    };
 
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
+    window.addEventListener('scroll', debouncedHandleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => {
+      window.removeEventListener('scroll', debouncedHandleScroll);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [handleScroll]);
+
+  // Navigation links configuration with icons (memoized for performance)
+  const navLinks = useMemo(
+    () => [
+      { name: 'Home', href: '#home', icon: Home },
+      { name: 'About', href: '#about', icon: User },
+      { name: 'Skills', href: '#skills', icon: Code },
+      { name: 'Projects', href: '#projects', icon: FolderKanban },
+      { name: 'Contact', href: '#contact', icon: Mail },
+    ],
+    []
+  );
+
+  /**
+   * Custom smooth scroll function with easing animation (memoized)
+   */
+  const smoothScrollTo = useCallback(
+    (targetY: number, duration: number = 1000) => {
+      try {
+        const startY = window.scrollY;
+        const distance = targetY - startY;
+        const startTime = performance.now();
+        setIsScrolling(true);
+
+        // Easing function: easeInOutCubic for smooth acceleration and deceleration
+        const easeInOutCubic = (t: number): number => {
+          return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        };
+
+        const animateScroll = (currentTime: number) => {
+          try {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = easeInOutCubic(progress);
+
+            window.scrollTo(0, startY + distance * ease);
+
+            if (progress < 1) {
+              requestAnimationFrame(animateScroll);
+            } else {
+              setIsScrolling(false);
+            }
+          } catch (error) {
+            setIsScrolling(false);
+            if (import.meta.env.DEV) {
+              console.error('Error in scroll animation:', error);
+            }
+          }
+        };
+
+        requestAnimationFrame(animateScroll);
+      } catch (error) {
+        setIsScrolling(false);
+        if (import.meta.env.DEV) {
+          console.error('Error initiating scroll:', error);
+        }
+      }
+    },
+    []
+  );
+
+  /**
+   * Handles navigation link clicks with smooth scrolling animation
+   */
+  const handleLinkClick = useCallback(
+    (
+      e:
+        | React.MouseEvent<HTMLAnchorElement>
+        | React.KeyboardEvent<HTMLAnchorElement>,
+      href: string
+    ) => {
+      e.preventDefault();
+
+      try {
+        const targetId = href.replace('#', '');
+        const targetSection = document.getElementById(targetId);
+
+        if (!targetSection) {
+          if (import.meta.env.DEV) {
+            console.warn(`Section with id "${targetId}" not found`);
+          }
+          return;
+        }
+
+        const viewportHeight = window.innerHeight;
+        const sectionTop = targetSection.offsetTop;
+        const sectionHeight = targetSection.offsetHeight;
+
+        // Get navbar element to calculate its actual height
+        const navbar = document.querySelector('nav');
+        const navbarHeight = navbar ? navbar.offsetHeight + 32 : 100; // Add some spacing
+
+        // Calculate position to center section vertically in viewport
+        // Center the section's midpoint at the viewport's midpoint
+        // Account for navbar at bottom: adjust so content appears centered accounting for navbar space
+        const sectionMidpoint = sectionTop + sectionHeight / 2;
+
+        // Calculate scroll position: move section midpoint to viewport midpoint
+        // Subtract navbar height from viewport to account for bottom navbar overlap
+        const adjustedViewportHeight = viewportHeight - navbarHeight;
+        const adjustedViewportMidpoint = adjustedViewportHeight / 2;
+
+        const targetPosition = Math.max(
+          0,
+          sectionMidpoint - adjustedViewportMidpoint
+        );
+
+        // Use custom smooth scroll instead of native smooth scroll
+        smoothScrollTo(targetPosition, 1000);
+
+        // Update active section immediately for visual feedback
+        setActiveSection(targetId);
+      } catch (error) {
+        if (import.meta.env.DEV) {
+          console.error('Error in handleLinkClick:', error);
+        }
+      }
+    },
+    []
+  );
 
   /**
    * Handles keyboard accessibility for interactive elements
-   * Allows Enter or Space key to trigger actions (for accessibility compliance)
-   * @param e - Keyboard event
-   * @param action - Function to execute when Enter or Space is pressed
    */
   const handleKeyDown = (
-    e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>,
+    e: KeyboardEvent<HTMLAnchorElement>,
     action: () => void
   ) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -100,136 +214,62 @@ const Navbar = () => {
   };
 
   return (
-    <nav
-      className={clsx(
-        'sticky top-0 z-50 w-full',
-        'backdrop-blur-xl',
-        'transition-all duration-300 ease-in-out',
-        isScrolled
-          ? 'bg-white/95 dark:bg-surface/95 shadow-lg border-b border-primary/20 dark:border-primary/30'
-          : 'bg-white/80 dark:bg-surface/60 border-b border-white/10 dark:border-primary/20'
-      )}
-    >
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex items-center justify-between h-16'>
-          <div className='flex-shrink-0'>
+    <nav className='fixed bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-4 w-full max-w-fit'>
+      <motion.div
+        className='relative flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-full bg-white/10 backdrop-blur-2xl border border-white/30 shadow-2xl'
+        animate={
+          isScrolling ? { scale: 0.98, opacity: 0.9 } : { scale: 1, opacity: 1 }
+        }
+        transition={{ duration: 0.2 }}
+      >
+        {/* Outer glow */}
+        <div className='absolute inset-0 rounded-full bg-gradient-to-r from-white/10 via-white/5 to-white/10 blur-xl -z-10' />
+        {/* Inner shine effect */}
+        <div className='absolute inset-0 rounded-full bg-gradient-to-t from-white/20 via-transparent to-transparent opacity-50 pointer-events-none' />
+        {/* Subtle background overlay */}
+        <div className='absolute inset-0 rounded-full bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none' />
+        {navLinks.map((link) => {
+          const sectionId = link.href.replace('#', '');
+          const isActive = activeSection === sectionId;
+          const Icon = link.icon;
+
+          return (
             <a
-              href='#home'
-              onClick={(e) => handleLinkClick(e, '#home')}
+              key={link.name}
+              href={link.href}
+              onClick={(e) => handleLinkClick(e, link.href)}
               onKeyDown={(e) =>
-                handleKeyDown(e, () => handleLinkClick(e, '#home'))
+                handleKeyDown(e, () => handleLinkClick(e, link.href))
               }
-              className='text-xl md:text-2xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:from-primary-light hover:to-accent-light transition-all duration-300 cursor-pointer'
+              className={clsx(
+                'p-2 sm:p-3 rounded-full transition-all duration-300',
+                'cursor-pointer relative z-10',
+                isActive
+                  ? 'bg-accent/30 text-accent scale-110 backdrop-blur-sm'
+                  : 'text-text/60 hover:text-text hover:bg-white/10 hover:backdrop-blur-sm'
+              )}
+              aria-label={link.name}
               tabIndex={0}
-              aria-label='Rusydi.Dev - Home'
             >
-              Rusydi@Dev
+              <Icon
+                className='w-4 h-4 sm:w-5 sm:h-5'
+                aria-hidden='true'
+              />
+              {isActive && (
+                <motion.div
+                  className='absolute inset-0 rounded-full bg-accent/20 -z-10'
+                  layoutId='activeNavItem'
+                  transition={{
+                    type: 'spring',
+                    stiffness: 380,
+                    damping: 30,
+                  }}
+                />
+              )}
             </a>
-          </div>
-
-          <div className='hidden md:flex items-center gap-1'>
-            {navLinks.map((link) => {
-              const sectionId = link.href.replace('#', '');
-              const isActive = activeSection === sectionId;
-
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleLinkClick(e, link.href)}
-                  onKeyDown={(e) =>
-                    handleKeyDown(e, () => handleLinkClick(e, link.href))
-                  }
-                  className={clsx(
-                    'px-4 py-2 rounded-lg relative',
-                    'transition-all duration-300',
-                    'font-medium',
-                    'cursor-pointer',
-                    isActive
-                      ? 'text-primary dark:text-primary-light bg-primary/10 dark:bg-primary/20'
-                      : 'text-slate-700 dark:text-text/80 hover:text-primary dark:hover:text-primary-light hover:bg-primary/5 dark:hover:bg-primary/10'
-                  )}
-                >
-                  {link.name}
-                  {isActive && (
-                    <motion.div
-                      className='absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-accent rounded-full'
-                      layoutId='activeSection'
-                      transition={{
-                        type: 'spring',
-                        stiffness: 380,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                </a>
-              );
-            })}
-          </div>
-
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            onKeyDown={(e) =>
-              handleKeyDown(e, () => setIsMobileMenuOpen(!isMobileMenuOpen))
-            }
-            className={clsx(
-              'md:hidden p-2 rounded-lg',
-              'text-slate-700 dark:text-text/80 hover:text-slate-900 dark:hover:text-text',
-              'hover:bg-white/10 dark:hover:bg-primary/10',
-              'transition-all duration-200',
-              'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-transparent'
-            )}
-            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isMobileMenuOpen}
-            tabIndex={0}
-          >
-            {isMobileMenuOpen ? (
-              <X
-                className='w-5 h-5'
-                aria-hidden='true'
-              />
-            ) : (
-              <Menu
-                className='w-5 h-5'
-                aria-hidden='true'
-              />
-            )}
-          </button>
-        </div>
-
-        {isMobileMenuOpen && (
-          <div className='md:hidden py-4 border-t border-white/10 dark:border-primary/20'>
-            <div className='flex flex-col gap-1'>
-              {navLinks.map((link) => {
-                const sectionId = link.href.replace('#', '');
-                const isActive = activeSection === sectionId;
-
-                return (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={(e) => handleLinkClick(e, link.href)}
-                    onKeyDown={(e) =>
-                      handleKeyDown(e, () => handleLinkClick(e, link.href))
-                    }
-                    className={clsx(
-                      'px-3 py-2 rounded-lg',
-                      'transition-all duration-300',
-                      'font-medium',
-                      'cursor-pointer',
-                      isActive
-                        ? 'text-primary dark:text-primary-light bg-primary/10 dark:bg-primary/20'
-                        : 'text-slate-700 dark:text-text/80 hover:text-primary dark:hover:text-primary-light hover:bg-primary/5 dark:hover:bg-primary/10'
-                    )}
-                  >
-                    {link.name}
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
+          );
+        })}
+      </motion.div>
     </nav>
   );
 };

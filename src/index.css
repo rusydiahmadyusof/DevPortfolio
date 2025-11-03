@@ -7,12 +7,12 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto; /* Disable native smooth scroll for custom implementation */
     scroll-padding-top: 6rem;
   }
   
   body {
-    @apply bg-white text-slate-900 dark:bg-background dark:text-text transition-colors duration-200;
+    @apply bg-background text-text transition-colors duration-200;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
@@ -47,5 +47,15 @@
 
   .gradient-text {
     @apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
+  }
+
+  /* Skip to content link for accessibility */
+  .skip-to-content {
+    @apply absolute -top-40 left-4 z-50 bg-primary text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:top-4 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Enhanced focus styles for better accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
 }

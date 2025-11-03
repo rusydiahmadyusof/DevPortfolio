@@ -13,8 +13,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: 'bg-gradient-to-r from-primary to-primary-dark text-white hover:from-primary-light hover:to-primary hover:shadow-glow hover:scale-[1.02] focus:ring-primary active:scale-[0.98]',
-        outline: 'border-2 border-primary/50 text-primary bg-transparent/80 backdrop-blur-sm hover:bg-primary/10 hover:border-primary hover:shadow-glow focus:ring-primary active:scale-[0.98]',
-        ghost: 'text-primary bg-transparent hover:bg-primary/10 hover:shadow-sm focus:ring-primary active:scale-[0.98]',
+        outline: 'border-2 border-white/20 text-text bg-surface backdrop-blur-sm hover:bg-white/10 hover:border-white/40 hover:shadow-glow focus:ring-primary active:scale-[0.98]',
+        ghost: 'text-text bg-transparent hover:bg-white/10 hover:shadow-sm focus:ring-primary active:scale-[0.98]',
       },
     },
     defaultVariants: {

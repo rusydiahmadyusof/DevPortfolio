@@ -1,168 +1,206 @@
-import { type KeyboardEvent } from 'react';
+import { ChevronDown, Github, FileCode, Palette, Atom, Circle, Code2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Button from '../components/Button';
+import OptimizedImage from '../components/OptimizedImage';
 
 /**
  * Hero Section Component
- * Displays the main introduction section with greeting, role, and call-to-action buttons.
- * Features animated entrance effects and smooth scrolling navigation.
+ * Centered layout with profile picture, greeting, title, description, skill badges, and scroll indicator.
+ * Features code-like background graphics.
  */
 const Hero = () => {
   /**
-   * Scrolls to the Projects section with smooth animation
-   * Accounts for navbar height to prevent content overlap
+   * Scrolls to the next section with smooth animation
    */
-  const handleViewProjects = () => {
-    const projectsSection = document.getElementById('projects');
-    if (projectsSection) {
-      const navbarHeight = 64;
-      const targetPosition = projectsSection.offsetTop - navbarHeight;
-
+  const handleScrollDown = () => {
+    try {
+      const aboutSection = document.getElementById('about');
+      if (!aboutSection) {
+        if (import.meta.env.DEV) {
+          console.warn('About section not found');
+        }
+        return;
+      }
       window.scrollTo({
-        top: targetPosition,
+        top: aboutSection.offsetTop - 20,
         behavior: 'smooth',
       });
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error('Error scrolling to about section:', error);
+      }
     }
   };
 
-  /**
-   * Scrolls to the Contact section with smooth animation
-   * Accounts for navbar height to prevent content overlap
-   */
-  const handleContactMe = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      const navbarHeight = 64;
-      const targetPosition = contactSection.offsetTop - navbarHeight;
-
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  /**
-   * Handles keyboard accessibility for buttons
-   * Enables Enter or Space key to trigger button actions
-   * @param e - Keyboard event
-   * @param action - Function to execute when Enter or Space is pressed
-   */
-  const handleKeyDown = (
-    e: KeyboardEvent<HTMLButtonElement>,
-    action: () => void
-  ) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      action();
-    }
-  };
+  // Skill badges configuration with proper icons
+  const skillBadges = [
+    { 
+      name: 'GitHub', 
+      icon: Github,
+      iconComponent: <Github className='w-4 h-4 text-white' />
+    },
+    { 
+      name: 'HTML', 
+      icon: FileCode,
+      iconComponent: (
+        <div className='w-4 h-4 flex items-center justify-center'>
+          <span className='text-[10px] font-bold text-white'>HTML</span>
+        </div>
+      )
+    },
+    { 
+      name: 'CSS', 
+      icon: Palette,
+      iconComponent: (
+        <div className='w-4 h-4 flex items-center justify-center'>
+          <span className='text-[10px] font-bold text-white'>CSS</span>
+        </div>
+      )
+    },
+    { 
+      name: 'JS', 
+      icon: FileCode,
+      iconComponent: (
+        <div className='w-4 h-4 bg-yellow-400 rounded flex items-center justify-center'>
+          <span className='text-[8px] font-bold text-black'>JS</span>
+        </div>
+      )
+    },
+    { 
+      name: 'React', 
+      icon: Atom,
+      iconComponent: <Atom className='w-4 h-4 text-cyan-400' />
+    },
+    { 
+      name: 'Node.js', 
+      icon: Circle,
+      iconComponent: (
+        <div className='w-4 h-4 bg-green-500 rounded-full flex items-center justify-center'>
+          <span className='text-[6px] font-bold text-white'>N</span>
+        </div>
+      )
+    },
+  ];
 
   return (
     <section
       id='home'
-      className='relative h-screen flex items-center justify-center py-12 scroll-mt-24 overflow-hidden'
+      className='relative min-h-screen flex items-center justify-center py-0 md:py-20 px-4 overflow-hidden'
     >
-      {/* Animated background gradient */}
-      <div className='absolute inset-0 bg-gradient-mesh opacity-50 dark:opacity-30' />
-      <div className='absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-accent/5 dark:from-primary/10 dark:to-accent/10' />
-      
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col items-center justify-center relative z-10'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full'>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className='space-y-6'
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <h1 className='text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight'>
-                Hi, I'm{' '}
-                <span className='gradient-text'>Rusydi</span>{' '}
-                <motion.span
-                  animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }}
-                  transition={{ duration: 0.5, delay: 1 }}
-                  className='inline-block'
-                >
-                  👋
-                </motion.span>
-              </h1>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <h2 className='text-2xl md:text-3xl lg:text-4xl font-bold text-primary dark:text-primary-light mb-2'>
-                Frontend Developer & UI/UX Enthusiast
-              </h2>
-            </motion.div>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className='text-lg md:text-xl text-slate-600 dark:text-text-muted mb-8 max-w-xl leading-relaxed'
-            >
-              I build responsive, accessible, and delightful web experiences that users love. 
-              Transforming ideas into polished, performant digital solutions.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className='flex flex-col sm:flex-row gap-4'
-            >
-              <Button
-                onClick={handleViewProjects}
-                onKeyDown={(e) => handleKeyDown(e, handleViewProjects)}
-                variant='primary'
-                className='w-full sm:w-auto text-base'
-                tabIndex={0}
-                aria-label='View Projects'
-              >
-                View Projects
-              </Button>
-              <Button
-                onClick={handleContactMe}
-                onKeyDown={(e) => handleKeyDown(e, handleContactMe)}
-                variant='outline'
-                className='w-full sm:w-auto text-base'
-                tabIndex={0}
-                aria-label='Contact Me'
-              >
-                Contact Me
-              </Button>
-            </motion.div>
-          </motion.div>
+      {/* Code-like background graphics */}
+      <div className='absolute inset-0 overflow-hidden pointer-events-none'>
+        <svg
+          className='absolute top-0 left-0 w-full h-full opacity-10'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <defs>
+            <linearGradient id='lineGradient' x1='0%' y1='0%' x2='100%' y2='0%'>
+              <stop offset='0%' stopColor='#10B981' stopOpacity='0.3' />
+              <stop offset='25%' stopColor='#8B5CF6' stopOpacity='0.3' />
+              <stop offset='50%' stopColor='#3B82F6' stopOpacity='0.3' />
+              <stop offset='75%' stopColor='#F59E0B' stopOpacity='0.3' />
+              <stop offset='100%' stopColor='#FFFFFF' stopOpacity='0.3' />
+            </linearGradient>
+          </defs>
+          {/* Horizontal lines */}
+          <line x1='0' y1='20%' x2='100%' y2='20%' stroke='url(#lineGradient)' strokeWidth='2' />
+          <line x1='0' y1='40%' x2='100%' y2='40%' stroke='url(#lineGradient)' strokeWidth='2' />
+          <line x1='0' y1='60%' x2='100%' y2='60%' stroke='url(#lineGradient)' strokeWidth='2' />
+          <line x1='0' y1='80%' x2='100%' y2='80%' stroke='url(#lineGradient)' strokeWidth='2' />
+        </svg>
+      </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-            className='flex justify-center lg:justify-end relative'
-          >
-            <div className='relative'>
-              {/* Glow effect */}
-              <div className='absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl animate-pulse' />
-              
-              {/* Profile image container */}
-              <div className='relative w-64 h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 p-1 shadow-glow-lg overflow-hidden'>
-                <div className='w-full h-full rounded-2xl bg-white dark:bg-surface border-2 border-primary/30 dark:border-primary/40 overflow-hidden backdrop-blur-sm'>
-                  <img
-                    src='/images/hero.jpg'
-                    alt='Rusydi Ahmad - Frontend Developer'
-                    className='w-full h-full object-cover'
-                    loading='eager'
-                  />
-                </div>
-              </div>
+      <div className='container mx-auto max-w-4xl w-full flex flex-col items-center justify-center relative z-10 text-center pt-4 md:pt-0'>
+        {/* Profile Picture with Code Tag Overlay */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className='relative mb-4 md:mb-8'
+        >
+          <div className='relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white/20'>
+            <OptimizedImage
+              src='/images/hero.jpg'
+              alt='Profile picture of Rusydi Ahmad Yusof'
+              className='w-full h-full object-cover'
+              loading='eager'
+            />
+            {/* Code tag overlay */}
+            <div className='absolute bottom-0 left-0 bg-accent-pink p-2 rounded-tr-lg'>
+              <Code2 className='w-4 h-4 text-white' />
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
+
+        {/* Greeting Text */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className='text-lg md:text-xl text-text/80 mb-2'
+        >
+          Hello World! My name is Rusydi and I am
+        </motion.p>
+
+        {/* Main Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className='text-3xl md:text-4xl lg:text-5xl font-extrabold text-text mb-6'
+        >
+          Front End Web Developer
+        </motion.h1>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className='text-sm md:text-base lg:text-lg text-text/70 mb-4 md:mb-8 max-w-2xl leading-relaxed px-2'
+        >
+          I build responsive, accessible, and delightful web experiences that users love.
+          Transforming ideas into polished, performant digital solutions.
+        </motion.p>
+
+        {/* Skill Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className='flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-6 md:mb-12 px-2'
+        >
+          {skillBadges.map((badge, index) => {
+            return (
+              <div
+                key={badge.name}
+                className='flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300'
+              >
+                {badge.iconComponent}
+                <span className='text-sm text-white font-medium'>{badge.name}</span>
+              </div>
+            );
+          })}
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1 }}
+          onClick={handleScrollDown}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleScrollDown();
+            }
+          }}
+          className='flex flex-col items-center gap-2 text-text/60 hover:text-text transition-colors duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-lg p-2'
+          aria-label='Scroll down to next section'
+          tabIndex={0}
+        >
+          <ChevronDown className='w-6 h-6 animate-bounce' />
+          <span className='text-xs opacity-0 md:opacity-100'>Scroll</span>
+        </motion.button>
       </div>
     </section>
   );
