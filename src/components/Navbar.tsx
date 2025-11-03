@@ -57,7 +57,7 @@ const Navbar = () => {
    * Uses debouncing to work smoothly with programmatic scrolling
    */
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     const debouncedHandleScroll = () => {
       // Clear previous timeout
