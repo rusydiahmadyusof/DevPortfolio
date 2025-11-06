@@ -105,4 +105,14 @@ export const projects: Project[] = [
     demoUrl: 'https://tampal-sana-sini.vercel.app/',
     borderColor: 'yellow',
   },
+  {
+    title: 'AI Resume Builder',
+    description:
+      'A zero-cost web application that helps users create AI-generated, tailored resumes by combining personal details with job application information. Features 20 professional templates, PDF export, and AI-powered content generation using Groq API.',
+    imageUrl: '/images/ai-resume-builder.png',
+    techStack: ['React', 'Vite', 'Tailwind CSS', 'React Hook Form', 'React Router', 'Groq API', 'jsPDF', 'html2canvas'],
+    codeUrl: 'https://github.com/rusydiahmadyusof/ai-resume-builder',
+    demoUrl: 'https://ai-resume-builder-lovat-chi.vercel.app/',
+    borderColor: 'purple',
+  },
 ];
