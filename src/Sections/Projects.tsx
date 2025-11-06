@@ -32,7 +32,7 @@ const Projects = () => {
    * Checks if URL is valid (not a placeholder)
    */
   const isValidUrl = (url: string) => {
-    return url && url !== '#' && !url.startsWith('#');
+    return url && url !== '#' && (url.startsWith('#') || url.startsWith('http') || url.startsWith('/'));
   };
 
   /**
@@ -42,6 +42,16 @@ const Projects = () => {
     if (!isValidUrl(url)) return;
 
     try {
+      // Handle hash links (internal navigation)
+      if (url.startsWith('#')) {
+        const element = document.querySelector(url);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        return;
+      }
+
+      // Handle external URLs
       const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
       if (!newWindow) {
         // Popup blocked or failed to open

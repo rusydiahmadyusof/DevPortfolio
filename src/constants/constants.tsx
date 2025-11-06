@@ -115,4 +115,14 @@ export const projects: Project[] = [
     demoUrl: 'https://ai-resume-builder-lovat-chi.vercel.app/',
     borderColor: 'purple',
   },
+  {
+    title: 'Multi-Game Arcade',
+    description:
+      'A collection of 6 classic browser games (Snake, Pong, Breakout, Tetris, Memory Cards, Space Invaders) built with vanilla JavaScript and HTML5 Canvas. No game engine required!',
+    imageUrl: '/images/multi-game-arcade.png',
+    techStack: ['JavaScript', 'HTML5', 'CSS3', 'Canvas API'],
+    codeUrl: 'https://github.com/rusydiahmadyusof/Game',
+    demoUrl: '#game',
+    borderColor: 'green',
+  },
 ];

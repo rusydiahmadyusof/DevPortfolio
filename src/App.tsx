@@ -3,6 +3,7 @@ import Hero from './Sections/Hero'
 import About from './Sections/About'
 import TechStack from './Sections/TechStack'
 import Projects from './Sections/Projects'
+import Game from './Sections/Game'
 import Contact from './Sections/Contact'
 import Footer from './Sections/Footer'
 
@@ -59,6 +60,7 @@ const App = () => {
         <About />
         <TechStack />
         <Projects />
+        <Game />
         <Contact />
       </main>
       <Footer />

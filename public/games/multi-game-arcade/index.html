@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Game Arcade</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div id="menu-container" class="container">
+        <header>
+            <h1>🎮 Multi-Game Arcade</h1>
+            <p>Choose a game to play!</p>
+        </header>
+        
+        <div id="game-grid" class="game-grid" role="grid">
+            <div class="game-card" data-game="snake" role="gridcell" tabindex="0" aria-label="Snake game - Classic snake game. Eat food and grow longer! Controls: Arrow Keys">
+                <div class="game-preview" aria-hidden="true">🐍</div>
+                <h2>Snake</h2>
+                <p>Classic snake game. Eat food and grow longer!</p>
+                <div class="game-controls" aria-label="Controls">Arrow Keys</div>
+            </div>
+            
+            <div class="game-card" data-game="pong" role="gridcell" tabindex="0" aria-label="Pong game - Bounce the ball past your opponent! Controls: W/S Keys">
+                <div class="game-preview" aria-hidden="true">🏓</div>
+                <h2>Pong</h2>
+                <p>Bounce the ball past your opponent!</p>
+                <div class="game-controls" aria-label="Controls">W/S Keys</div>
+            </div>
+            
+            <div class="game-card" data-game="breakout" role="gridcell" tabindex="0" aria-label="Breakout game - Break all the bricks with your paddle! Controls: Arrow Keys">
+                <div class="game-preview" aria-hidden="true">🧱</div>
+                <h2>Breakout</h2>
+                <p>Break all the bricks with your paddle!</p>
+                <div class="game-controls" aria-label="Controls">Arrow Keys</div>
+            </div>
+            
+            <div class="game-card" data-game="tetris" role="gridcell" tabindex="0" aria-label="Tetris game - Fit the falling blocks and clear lines! Controls: Arrow Keys + Space">
+                <div class="game-preview" aria-hidden="true">🔲</div>
+                <h2>Tetris</h2>
+                <p>Fit the falling blocks and clear lines!</p>
+                <div class="game-controls" aria-label="Controls">Arrow Keys + Space</div>
+            </div>
+            
+            <div class="game-card" data-game="memory" role="gridcell" tabindex="0" aria-label="Memory Cards game - Match pairs of cards in this memory game! Controls: Mouse Click">
+                <div class="game-preview" aria-hidden="true">🧠</div>
+                <h2>Memory Cards</h2>
+                <p>Match pairs of cards in this memory game!</p>
+                <div class="game-controls" aria-label="Controls">Mouse Click</div>
+            </div>
+            
+            <div class="game-card" data-game="space-invaders" role="gridcell" tabindex="0" aria-label="Space Invaders game - Defend Earth from alien invaders! Controls: Arrow Keys + Space">
+                <div class="game-preview" aria-hidden="true">👾</div>
+                <h2>Space Invaders</h2>
+                <p>Defend Earth from alien invaders!</p>
+                <div class="game-controls" aria-label="Controls">Arrow Keys + Space</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="game-container" class="container hidden">
+        <div class="game-header">
+            <button id="back-button" class="back-button">← Back to Menu</button>
+            <div id="game-info" class="game-info">
+                <span id="score-display">Score: 0</span>
+            </div>
+        </div>
+        <canvas id="game-canvas"></canvas>
+        <div id="game-overlay" class="game-overlay hidden">
+            <div class="overlay-content">
+                <h2 id="overlay-title">Game Over</h2>
+                <p id="overlay-message"></p>
+                <button id="restart-button" class="restart-button">Restart</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/utils.js"></script>
+    <script src="js/game-engine.js"></script>
+    <script src="js/games/snake.js"></script>
+    <script src="js/games/pong.js"></script>
+    <script src="js/games/breakout.js"></script>
+    <script src="js/games/tetris.js"></script>
+    <script src="js/games/memory.js"></script>
+    <script src="js/games/space-invaders.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
