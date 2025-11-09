@@ -20,7 +20,7 @@ const Game = () => {
   return (
     <section
       id='game'
-      className='relative h-screen flex flex-col items-center justify-center py-4 sm:py-6 md:py-8 overflow-hidden'
+      className='relative h-screen flex flex-col items-center justify-center overflow-hidden'
     >
       {/* Background graphics (matching your portfolio style) */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>

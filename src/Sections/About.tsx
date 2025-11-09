@@ -9,7 +9,7 @@ import OptimizedImage from '../components/OptimizedImage'
  */
 const About = () => {
   return (
-    <section id="about" className="relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 overflow-hidden">
+    <section id="about" className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
         <svg

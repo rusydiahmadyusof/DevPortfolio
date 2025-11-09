@@ -92,10 +92,9 @@ const Hero = () => {
   ];
 
   return (
-    <header
+    <section
       id='home'
-      className='relative min-h-screen flex items-center justify-center py-8 sm:py-12 md:py-16 overflow-hidden'
-      role='banner'
+      className='relative h-screen flex items-center justify-center overflow-hidden'
     >
       {/* Code-like background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
@@ -271,7 +270,7 @@ const Hero = () => {
           <span className='text-xs opacity-0 md:opacity-100'>Scroll</span>
         </motion.button>
       </div>
-    </header>
+    </section>
   );
 };
 

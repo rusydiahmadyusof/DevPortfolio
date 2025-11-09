@@ -1,4 +1,4 @@
-import { type KeyboardEvent, useState, useEffect, useRef, useCallback } from 'react';
+import { type KeyboardEvent, useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import Card from '../components/Card';
@@ -15,6 +15,9 @@ import { projects } from '../constants/constants';
 const Projects = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
   /**
    * Handles keyboard accessibility for project action buttons
    */
@@ -35,100 +38,110 @@ const Projects = () => {
     return url && url !== '#' && (url.startsWith('#') || url.startsWith('http') || url.startsWith('/'));
   };
 
-  /**
-   * Handles project button clicks with error handling
-   */
-  const handleProjectClick = useCallback((url: string) => {
+  const handleProjectClick = (url: string) => {
     if (!isValidUrl(url)) return;
 
-    try {
-      // Handle hash links (internal navigation)
-      if (url.startsWith('#')) {
-        const element = document.querySelector(url);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        return;
+    if (url.startsWith('#')) {
+      const element = document.querySelector(url);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-
-      // Handle external URLs
-      const newWindow = window.open(url, '_blank', 'noopener noreferrer');
-      if (!newWindow) {
-        // Popup blocked or failed to open
-        if (import.meta.env.DEV) {
-          console.warn('Failed to open URL:', url);
-        }
-      }
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Error opening URL:', error);
-      }
+      return;
     }
-  }, []);
 
-  /**
-   * Updates active indicator based on scroll position (mobile only)
-   */
-  const handleScrollUpdate = useCallback(() => {
+    window.open(url, '_blank', 'noopener noreferrer');
+  };
+
+  // Simple scroll indicator update
+  const handleScrollUpdate = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    try {
-      // Only update on mobile (when flex layout is active)
-      if (window.innerWidth < 768) {
-        const scrollLeft = container.scrollLeft;
-        const cardWidth = container.offsetWidth * 0.85; // 85vw
-        const gap = 24; // gap-6 = 24px
-        const index = Math.round(scrollLeft / (cardWidth + gap));
-        setActiveIndex(Math.min(Math.max(0, index), projects.length - 1));
-      }
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Error in scroll update:', error);
-      }
-    }
-  }, []);
+    const scrollLeft = container.scrollLeft;
+    const containerWidth = container.offsetWidth;
+    const cardWidth = window.innerWidth < 640 
+      ? containerWidth * 0.85 
+      : window.innerWidth < 1024 
+        ? containerWidth * 0.7 
+        : 420;
+    const gap = 24;
+    const index = Math.round(scrollLeft / (cardWidth + gap));
+    setActiveIndex(Math.min(Math.max(0, index), projects.length - 1));
+  };
 
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
     container.addEventListener('scroll', handleScrollUpdate, { passive: true });
-    handleScrollUpdate(); // Initial check
+    handleScrollUpdate();
 
     return () => {
       container.removeEventListener('scroll', handleScrollUpdate);
     };
-  }, [handleScrollUpdate]);
-
-  /**
-   * Scrolls to a specific project index (for indicator clicks)
-   */
-  const scrollToIndex = useCallback((index: number) => {
-    const container = scrollContainerRef.current;
-    if (!container || window.innerWidth >= 768) return;
-
-    try {
-      const validIndex = Math.min(Math.max(0, index), projects.length - 1);
-      const cardWidth = container.offsetWidth * 0.85; // 85vw
-      const gap = 24; // gap-6 = 24px
-      const scrollPosition = validIndex * (cardWidth + gap);
-      
-      container.scrollTo({
-        left: scrollPosition,
-        behavior: 'smooth',
-      });
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Error scrolling to index:', error);
-      }
-    }
   }, []);
+
+  // Simple drag scrolling without momentum
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('a')) return;
+
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    setIsDragging(true);
+    const rect = container.getBoundingClientRect();
+    startXRef.current = e.pageX - rect.left;
+    scrollLeftRef.current = container.scrollLeft;
+    container.style.cursor = 'grabbing';
+    container.style.userSelect = 'none';
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    e.preventDefault();
+
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const rect = container.getBoundingClientRect();
+    const x = e.pageX - rect.left;
+    const walk = x - startXRef.current;
+    container.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    
+    setIsDragging(false);
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.style.cursor = 'grab';
+      container.style.userSelect = '';
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const validIndex = Math.min(Math.max(0, index), projects.length - 1);
+    const containerWidth = container.offsetWidth;
+    const cardWidth = window.innerWidth < 640 
+      ? containerWidth * 0.85 
+      : window.innerWidth < 1024 
+        ? containerWidth * 0.7 
+        : 420;
+    const gap = 24;
+    const scrollPosition = validIndex * (cardWidth + gap);
+    
+    container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+  };
 
   return (
     <section
       id='projects'
-      className='relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 overflow-hidden'
+      className='relative h-screen flex items-center justify-center overflow-hidden'
     >
       {/* Background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
@@ -156,27 +169,33 @@ const Projects = () => {
         <div className='absolute top-1/2 right-0 w-80 h-80 bg-accent-yellow/5 rounded-full blur-3xl animate-pulse' style={{ animationDelay: '2s' }} />
       </div>
 
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl w-full flex flex-col items-center justify-center relative z-10 py-8 sm:py-12'>
+      <div className='container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl w-full flex flex-col items-center justify-center relative z-10 h-full py-4 sm:py-6'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className='mb-8 sm:mb-12 md:mb-16 text-center'
+          className='mb-3 sm:mb-4 text-center flex-shrink-0'
         >
-          <h2 className='text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 sm:mb-4 text-white'>
+          <h2 className='text-2xl sm:text-3xl md:text-4xl font-extrabold text-white'>
             Featured Projects
           </h2>
         </motion.div>
 
-        {/* Mobile: Horizontal scrollable | Desktop: Grid */}
+        {/* Horizontal scrollable container */}
         <div 
           ref={scrollContainerRef}
-          className='flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 snap-x snap-mandatory md:snap-none scrollbar-hide px-2 md:px-0 w-full max-w-7xl -mx-2 md:mx-auto'
+          className='flex gap-3 sm:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide px-2 sm:px-4 w-full max-w-7xl -mx-2 sm:-mx-4 cursor-grab active:cursor-grabbing select-none flex-1 min-h-0'
           style={{ 
-            scrollBehavior: 'smooth',
-            WebkitOverflowScrolling: 'touch' 
+            scrollBehavior: isDragging ? 'auto' : 'smooth',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain',
+            scrollSnapType: 'x mandatory'
           }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
         >
           {projects.map((project, index) => (
             <motion.article
@@ -189,15 +208,15 @@ const Projects = () => {
                 delay: index * 0.1,
                 ease: 'easeOut',
               }}
-              className='h-full min-w-[85vw] md:min-w-0 snap-center md:snap-none flex-shrink-0 md:flex-shrink w-full md:w-auto'
+              className='h-full min-w-[85vw] sm:min-w-[70vw] lg:min-w-[380px] max-w-[380px] snap-center flex-shrink-0 pointer-events-auto'
             >
               <Card
                 borderColor={project.borderColor || 'blue'}
                 className='flex flex-col h-full group'
               >
                 {/* Image container */}
-                <div className='relative mb-4 -mx-4 -mt-4 rounded-t-xl overflow-hidden'>
-                  <div className='relative w-full h-36 sm:h-40 md:h-48 overflow-hidden'>
+                <div className='relative mb-3 -mx-4 -mt-4 rounded-t-xl overflow-hidden'>
+                  <div className='relative w-full h-32 sm:h-36 lg:h-40 overflow-hidden'>
                     <OptimizedImage
                       src={project.imageUrl}
                       alt={`${project.title} preview`}
@@ -207,21 +226,21 @@ const Projects = () => {
                   </div>
                 </div>
 
-                <div className='flex flex-col flex-1 min-h-0 px-1'>
-                  <h3 className='text-lg sm:text-xl md:text-2xl font-bold mb-2 text-white group-hover:text-primary-light transition-colors duration-300'>
+                <div className='flex flex-col flex-1 min-h-0 px-2'>
+                  <h3 className='text-base sm:text-lg lg:text-xl font-bold mb-2 text-white group-hover:text-primary-light transition-colors duration-300'>
                     {project.title}
                   </h3>
-                  <p className='text-xs sm:text-sm md:text-base text-text-muted mb-3 sm:mb-4 leading-relaxed line-clamp-3'>
+                  <p className='text-xs sm:text-sm text-text-muted mb-2 leading-relaxed line-clamp-2'>
                     {project.description}
                   </p>
 
-                  <div className='flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4'>
+                  <div className='flex flex-wrap gap-1.5 mb-2'>
                     {project.techStack.map((tech) => (
                       <Badge key={tech}>{tech}</Badge>
                     ))}
                   </div>
 
-                  <div className='flex flex-row gap-2 mt-auto pt-2'>
+                  <div className='flex flex-row gap-2 mt-auto pt-1'>
                     <Button
                       variant='outline'
                       onClick={() => handleProjectClick(project.codeUrl)}
@@ -271,8 +290,8 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* Mobile Scroll Indicator */}
-        <div className='flex md:hidden justify-center items-center gap-2 mt-6'>
+        {/* Scroll Indicator */}
+        <div className='flex justify-center items-center gap-2 mt-3 sm:mt-4 flex-shrink-0'>
           {projects.map((_, index) => (
             <button
               key={index}

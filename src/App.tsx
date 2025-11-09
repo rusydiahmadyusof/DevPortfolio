@@ -7,7 +7,6 @@ import Footer from './Sections/Footer'
 
 // Lazy load below-the-fold sections for better initial load performance
 const Projects = lazy(() => import('./Sections/Projects'))
-const Game = lazy(() => import('./Sections/Game'))
 const Contact = lazy(() => import('./Sections/Contact'))
 
 /**
@@ -77,9 +76,6 @@ const App = () => {
         <TechStack />
         <Suspense fallback={<SectionLoader />}>
           <Projects />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <Game />
         </Suspense>
         <Suspense fallback={<SectionLoader />}>
           <Contact />

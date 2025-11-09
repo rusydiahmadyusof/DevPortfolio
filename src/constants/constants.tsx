@@ -116,13 +116,13 @@ export const projects: Project[] = [
     borderColor: 'purple',
   },
   {
-    title: 'Multi-Game Arcade',
+    title: 'HabitFlick',
     description:
-      'A collection of 6 classic browser games (Snake, Pong, Breakout, Tetris, Memory Cards, Space Invaders) built with vanilla JavaScript and HTML5 Canvas. No game engine required!',
-    imageUrl: '/images/multi-game-arcade.png',
-    techStack: ['JavaScript', 'HTML5', 'CSS3', 'Canvas API'],
-    codeUrl: 'https://github.com/rusydiahmadyusof/Game',
-    demoUrl: '#game',
-    borderColor: 'green',
+      'A modern habit tracking application that helps you build and maintain positive habits. Track your daily progress, set goals, and visualize your journey towards better habits with an intuitive and beautiful interface.',
+    imageUrl: '/images/habitflick.png',
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
+    codeUrl: 'https://github.com/rusydiahmadyusof/habitflick',
+    demoUrl: 'https://habit-flick.vercel.app/',
+    borderColor: 'pink',
   },
 ];

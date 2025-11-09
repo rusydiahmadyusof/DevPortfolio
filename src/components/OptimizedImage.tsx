@@ -1,19 +1,17 @@
-import { memo, useState, useCallback, type ImgHTMLAttributes, type ReactNode } from 'react';
+import { useState, type ImgHTMLAttributes, type ReactNode } from 'react';
 import { ImageOff } from 'lucide-react';
 
 interface OptimizedImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc?: string;
   errorFallback?: ReactNode;
-  priority?: boolean; // For above-the-fold images
+  priority?: boolean;
   fetchPriority?: 'high' | 'low' | 'auto';
 }
 
 /**
- * Optimized Image Component
- * Handles image loading errors and provides fallback UI
- * Includes performance optimizations
+ * Simple Image Component with error handling
  */
-const OptimizedImage = memo(({
+const OptimizedImage = ({
   src,
   alt,
   fallbackSrc,
@@ -26,19 +24,13 @@ const OptimizedImage = memo(({
   ...props
 }: OptimizedImageProps) => {
   const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const handleError = useCallback((e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     setHasError(true);
-    setIsLoading(false);
     if (onError) {
       onError(e);
     }
-  }, [onError]);
-
-  const handleLoad = useCallback(() => {
-    setIsLoading(false);
-  }, []);
+  };
 
   if (hasError) {
     if (fallbackSrc) {
@@ -57,7 +49,6 @@ const OptimizedImage = memo(({
       return <>{errorFallback}</>;
     }
 
-    // Default error fallback
     return (
       <div
         className={`${className} flex items-center justify-center bg-surface border border-white/10`}
@@ -73,29 +64,17 @@ const OptimizedImage = memo(({
   }
 
   return (
-    <div className="relative w-full h-full">
-      {isLoading && (
-        <div
-          className={`${className} absolute inset-0 bg-surface animate-pulse flex items-center justify-center`}
-          aria-hidden="true"
-        >
-          <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-        </div>
-      )}
-      <img
-        src={src}
-        alt={alt}
-        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
-        onError={handleError}
-        onLoad={handleLoad}
-        decoding="async"
-        loading={loadingProp ?? (priority ? 'eager' : 'lazy')}
-        fetchPriority={fetchPriority}
-        {...props}
-      />
-    </div>
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      onError={handleError}
+      loading={loadingProp ?? (priority ? 'eager' : 'lazy')}
+      fetchPriority={fetchPriority}
+      {...props}
+    />
   );
-});
+};
 
 OptimizedImage.displayName = 'OptimizedImage';
 

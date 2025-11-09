@@ -71,7 +71,7 @@ const Contact = () => {
   return (
     <section
       id='contact'
-      className='relative min-h-screen flex items-center py-0 md:py-20 px-4 overflow-hidden'
+      className='relative h-screen flex items-center px-4 overflow-hidden'
     >
       {/* Code-like background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>

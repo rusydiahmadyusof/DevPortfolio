@@ -38,7 +38,7 @@ const Card = memo(({ children, className, style, borderColor = 'blue' }: CardPro
       whileHover={{ scale: 1.02, y: -4 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
-      <div className="rounded-xl bg-surface p-4 md:p-6 transition-all duration-300 h-full flex flex-col overflow-hidden">{children}</div>
+      <div className="rounded-xl bg-surface p-4 sm:p-5 lg:p-6 transition-all duration-300 h-full flex flex-col overflow-hidden">{children}</div>
     </motion.div>
   )
 })
