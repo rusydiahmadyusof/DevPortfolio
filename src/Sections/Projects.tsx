@@ -52,7 +52,7 @@ const Projects = () => {
       }
 
       // Handle external URLs
-      const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+      const newWindow = window.open(url, '_blank', 'noopener noreferrer');
       if (!newWindow) {
         // Popup blocked or failed to open
         if (import.meta.env.DEV) {
@@ -128,7 +128,7 @@ const Projects = () => {
   return (
     <section
       id='projects'
-      className='relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 scroll-mt-24 overflow-hidden'
+      className='relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 overflow-hidden'
     >
       {/* Background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
@@ -179,7 +179,7 @@ const Projects = () => {
           }}
         >
           {projects.map((project, index) => (
-            <motion.div
+            <motion.article
               key={project.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -267,7 +267,7 @@ const Projects = () => {
                   </div>
                 </div>
               </Card>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
 

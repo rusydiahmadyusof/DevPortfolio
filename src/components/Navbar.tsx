@@ -33,12 +33,18 @@ const Navbar = () => {
     if (isScrolling) return;
 
     try {
+      // Get navbar height for proper offset calculation
+      const navbar = document.querySelector('nav');
+      const navbarHeight = navbar ? navbar.offsetHeight : 80;
+      const offset = 100; // Offset from top to determine active section
+      
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
         if (section) {
           const rect = section.getBoundingClientRect();
-          // Check if section is in viewport
-          if (rect.top <= 200 && rect.bottom >= 100) {
+          // Check if section is in viewport with proper offset
+          // Account for bottom navbar by checking if section top is above viewport bottom minus navbar
+          if (rect.top <= offset && rect.bottom >= navbarHeight + 50) {
             setActiveSection(sections[i]);
             break;
           }
@@ -163,27 +169,15 @@ const Navbar = () => {
           return;
         }
 
-        const viewportHeight = window.innerHeight;
+        // Get section position
         const sectionTop = targetSection.offsetTop;
-        const sectionHeight = targetSection.offsetHeight;
-
-        // Get navbar element to calculate its actual height
-        const navbar = document.querySelector('nav');
-        const navbarHeight = navbar ? navbar.offsetHeight + 32 : 100; // Add some spacing
-
-        // Calculate position to center section vertically in viewport
-        // Center the section's midpoint at the viewport's midpoint
-        // Account for navbar at bottom: adjust so content appears centered accounting for navbar space
-        const sectionMidpoint = sectionTop + sectionHeight / 2;
-
-        // Calculate scroll position: move section midpoint to viewport midpoint
-        // Subtract navbar height from viewport to account for bottom navbar overlap
-        const adjustedViewportHeight = viewportHeight - navbarHeight;
-        const adjustedViewportMidpoint = adjustedViewportHeight / 2;
-
+        
+        // Calculate scroll position: scroll to section top with padding for bottom navbar
+        // Add extra padding to ensure section is fully visible above the bottom navbar
+        const padding = 24; // Additional padding for better visibility
         const targetPosition = Math.max(
           0,
-          sectionMidpoint - adjustedViewportMidpoint
+          sectionTop - padding
         );
 
         // Use custom smooth scroll instead of native smooth scroll
@@ -197,7 +191,7 @@ const Navbar = () => {
         }
       }
     },
-    []
+    [smoothScrollTo]
   );
 
   /**

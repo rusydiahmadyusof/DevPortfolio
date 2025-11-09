@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties } from 'react'
+import { memo, type ReactNode, type CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import { clsx } from 'clsx'
 
@@ -17,7 +17,7 @@ interface CardProps {
  * @param className - Additional CSS classes to merge with default card styles
  * @param style - Optional inline styles to apply to the card
  */
-const Card = ({ children, className, style, borderColor = 'blue' }: CardProps) => {
+const Card = memo(({ children, className, style, borderColor = 'blue' }: CardProps) => {
   const borderColorClasses = {
     blue: 'border-accent-blue',
     yellow: 'border-accent-yellow',
@@ -41,6 +41,8 @@ const Card = ({ children, className, style, borderColor = 'blue' }: CardProps) =
       <div className="rounded-xl bg-surface p-4 md:p-6 transition-all duration-300 h-full flex flex-col overflow-hidden">{children}</div>
     </motion.div>
   )
-}
+})
+
+Card.displayName = 'Card'
 
 export default Card

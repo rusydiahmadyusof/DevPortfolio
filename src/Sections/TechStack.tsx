@@ -11,7 +11,7 @@ const TechStack = () => {
   return (
     <section
       id='skills'
-      className='relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 scroll-mt-24 overflow-hidden'
+      className='relative min-h-screen flex items-center justify-center py-12 sm:py-16 md:py-20 overflow-hidden'
     >
       {/* Background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
@@ -101,9 +101,9 @@ const TechStack = () => {
           </h2>
         </motion.div>
 
-        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-6xl mx-auto w-full'>
+        <ul className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-6xl mx-auto w-full list-none'>
           {techItems.map((tech, index) => (
-            <motion.div
+            <motion.li
               key={tech.name}
               initial={{ opacity: 0, y: 30, scale: 0.9 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -127,9 +127,9 @@ const TechStack = () => {
               <span className='text-xs sm:text-sm md:text-base font-mono font-semibold text-slate-700 dark:text-text-light relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-primary-light text-center'>
                 {tech.name}
               </span>
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

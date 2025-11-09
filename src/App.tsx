@@ -1,17 +1,33 @@
+import { lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './Sections/Hero'
 import About from './Sections/About'
 import TechStack from './Sections/TechStack'
-import Projects from './Sections/Projects'
-import Game from './Sections/Game'
-import Contact from './Sections/Contact'
 import Footer from './Sections/Footer'
+
+// Lazy load below-the-fold sections for better initial load performance
+const Projects = lazy(() => import('./Sections/Projects'))
+const Game = lazy(() => import('./Sections/Game'))
+const Contact = lazy(() => import('./Sections/Contact'))
+
+/**
+ * Loading fallback component for lazy-loaded sections
+ */
+const SectionLoader = () => (
+  <div className="min-h-screen flex items-center justify-center py-20">
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+      <p className="text-text-muted text-sm">Loading...</p>
+    </div>
+  </div>
+)
 
 /**
  * Main App Component
  * Root component that renders the entire portfolio layout.
  * Composes all sections: Navbar, Hero, About, TechStack, Projects, Contact, and Footer.
  * Handles dark mode transitions and responsive layout structure.
+ * Uses code splitting for below-the-fold sections to improve initial load performance.
  */
 const App = () => {
   return (
@@ -59,9 +75,15 @@ const App = () => {
         <Hero />
         <About />
         <TechStack />
-        <Projects />
-        <Game />
-        <Contact />
+        <Suspense fallback={<SectionLoader />}>
+          <Projects />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Game />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Contact />
+        </Suspense>
       </main>
       <Footer />
       <Navbar />

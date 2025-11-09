@@ -30,7 +30,31 @@ class ErrorBoundary extends Component<Props, State> {
     if (import.meta.env.DEV) {
       console.error('Error caught by boundary:', error, errorInfo);
     }
+    
     // In production, you could log to an error reporting service
+    // Example: Sentry, LogRocket, etc.
+    // if (import.meta.env.PROD) {
+    //   errorReportingService.captureException(error, {
+    //     contexts: { react: errorInfo },
+    //   });
+    // }
+    
+    // Optional: Send to analytics or monitoring service
+    // Uncomment and configure when ready to integrate error tracking
+    // if (import.meta.env.PROD && 'navigator' in window && 'sendBeacon' in navigator) {
+    //   try {
+    //     const errorData = {
+    //       message: error.message,
+    //       stack: error.stack,
+    //       componentStack: errorInfo.componentStack,
+    //       timestamp: new Date().toISOString(),
+    //     };
+    //     // You can send to your error tracking endpoint here
+    //     // navigator.sendBeacon('/api/errors', JSON.stringify(errorData));
+    //   } catch (e) {
+    //     // Silently fail if error reporting fails
+    //   }
+    // }
   }
 
   render() {

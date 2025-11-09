@@ -28,8 +28,10 @@ const Hero = () => {
         }
         return;
       }
+      // Scroll to section with padding to account for bottom navbar
+      const padding = 24;
       window.scrollTo({
-        top: aboutSection.offsetTop - 20,
+        top: aboutSection.offsetTop - padding,
         behavior: 'smooth',
       });
     } catch (error) {
@@ -90,9 +92,10 @@ const Hero = () => {
   ];
 
   return (
-    <section
+    <header
       id='home'
-      className='relative min-h-screen flex items-center justify-center py-8 sm:py-12 md:py-16 scroll-mt-24 overflow-hidden'
+      className='relative min-h-screen flex items-center justify-center py-8 sm:py-12 md:py-16 overflow-hidden'
+      role='banner'
     >
       {/* Code-like background graphics */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
@@ -184,7 +187,8 @@ const Hero = () => {
               src='/images/hero.jpg'
               alt='Profile picture of Rusydi Ahmad Yusof'
               className='w-full h-full object-cover'
-              loading='eager'
+              priority
+              fetchPriority='high'
             />
             {/* Code tag overlay */}
             <div className='absolute bottom-0 left-0 bg-accent-pink p-2 rounded-tr-lg'>
@@ -267,7 +271,7 @@ const Hero = () => {
           <span className='text-xs opacity-0 md:opacity-100'>Scroll</span>
         </motion.button>
       </div>
-    </section>
+    </header>
   );
 };
 

@@ -1,9 +1,11 @@
-import { useState, useCallback, type ImgHTMLAttributes, type ReactNode } from 'react';
+import { memo, useState, useCallback, type ImgHTMLAttributes, type ReactNode } from 'react';
 import { ImageOff } from 'lucide-react';
 
 interface OptimizedImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc?: string;
   errorFallback?: ReactNode;
+  priority?: boolean; // For above-the-fold images
+  fetchPriority?: 'high' | 'low' | 'auto';
 }
 
 /**
@@ -11,13 +13,16 @@ interface OptimizedImageProps extends ImgHTMLAttributes<HTMLImageElement> {
  * Handles image loading errors and provides fallback UI
  * Includes performance optimizations
  */
-const OptimizedImage = ({
+const OptimizedImage = memo(({
   src,
   alt,
   fallbackSrc,
   errorFallback,
   className = '',
   onError,
+  priority = false,
+  fetchPriority = 'auto',
+  loading: loadingProp,
   ...props
 }: OptimizedImageProps) => {
   const [hasError, setHasError] = useState(false);
@@ -84,11 +89,15 @@ const OptimizedImage = ({
         onError={handleError}
         onLoad={handleLoad}
         decoding="async"
+        loading={loadingProp ?? (priority ? 'eager' : 'lazy')}
+        fetchPriority={fetchPriority}
         {...props}
       />
     </div>
   );
-};
+});
+
+OptimizedImage.displayName = 'OptimizedImage';
 
 export default OptimizedImage;
 

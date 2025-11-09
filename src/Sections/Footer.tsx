@@ -29,7 +29,7 @@ const Footer = () => {
         <div className='flex flex-col items-center justify-center space-y-6'>
           <div className='flex items-center space-x-6'>
             <a
-              href='https://github.com'
+              href='https://github.com/rusydiahmadyusof'
               target='_blank'
               rel='noopener noreferrer'
               className='group p-3 rounded-xl text-text-muted hover:text-primary-light hover:bg-primary/20 transition-all duration-300 hover:scale-110 hover:shadow-glow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-transparent'
@@ -37,7 +37,7 @@ const Footer = () => {
               tabIndex={0}
               onKeyDown={(e) =>
                 handleKeyDown(e, () =>
-                  window.open('https://github.com', '_blank')
+                  window.open('https://github.com/rusydiahmadyusof', '_blank')
                 )
               }
             >
@@ -47,7 +47,7 @@ const Footer = () => {
               />
             </a>
             <a
-              href='https://linkedin.com'
+              href='https://linkedin.com/in/rusydiahmadyusof'
               target='_blank'
               rel='noopener noreferrer'
               className='group p-3 rounded-xl text-text-muted hover:text-primary-light hover:bg-primary/20 transition-all duration-300 hover:scale-110 hover:shadow-glow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-transparent'
@@ -55,7 +55,7 @@ const Footer = () => {
               tabIndex={0}
               onKeyDown={(e) =>
                 handleKeyDown(e, () =>
-                  window.open('https://linkedin.com', '_blank')
+                  window.open('https://linkedin.com/in/rusydiahmadyusof', '_blank')
                 )
               }
             >
@@ -68,7 +68,7 @@ const Footer = () => {
 
           <div className='flex flex-col items-center space-y-2'>
             <p className='text-sm md:text-base text-text-muted font-medium text-center'>
-              © 2025{' '}
+              © <time dateTime="2025">2025</time>{' '}
               <span className='font-bold text-primary-light'>
                 Rusydi Ahmad Yusof
               </span>

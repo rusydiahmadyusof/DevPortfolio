@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { memo, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 
 interface BadgeProps {
@@ -13,7 +13,7 @@ interface BadgeProps {
  * @param children - Text or content to display in the badge
  * @param className - Additional CSS classes to merge with default badge styles
  */
-const Badge = ({ children, className }: BadgeProps) => {
+const Badge = memo(({ children, className }: BadgeProps) => {
   return (
     <span
       className={clsx(
@@ -31,6 +31,8 @@ const Badge = ({ children, className }: BadgeProps) => {
       {children}
     </span>
   )
-}
+})
+
+Badge.displayName = 'Badge'
 
 export default Badge

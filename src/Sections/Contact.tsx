@@ -56,7 +56,7 @@ const Contact = () => {
       if (isEmail) {
         window.location.href = url;
       } else {
-        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        const newWindow = window.open(url, '_blank', 'noopener noreferrer');
         if (!newWindow && import.meta.env.DEV) {
           console.warn('Popup blocked or failed to open:', url);
         }
@@ -117,7 +117,7 @@ const Contact = () => {
         </motion.div>
 
         {/* Social Media Links */}
-        <div className='w-full max-w-md space-y-2 md:space-y-4'>
+        <nav className='w-full max-w-md space-y-2 md:space-y-4' aria-label='Social media links'>
           {socialLinks.map((link, index) => {
             const Icon = link.icon;
             return (
@@ -157,7 +157,7 @@ const Contact = () => {
               </motion.a>
             );
           })}
-        </div>
+        </nav>
       </div>
     </section>
   );
